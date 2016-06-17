@@ -1,0 +1,29 @@
+{
+  "name": "harvest_server",
+  "version": "0.0.1",
+  "description": "web server for harvest app",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^3.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/venkat299/harvest_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/venkat299/harvest_server/issues"
+  },
+  "homepage": "https://github.com/venkat299/harvest_server#readme"
+}
