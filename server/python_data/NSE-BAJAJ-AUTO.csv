@@ -1,0 +1,6 @@
+{
+  "quandl_error": {
+    "code": "QECx02",
+    "message": "You have submitted an incorrect Quandl code. Please check your Quandl codes and try again."
+  }
+}

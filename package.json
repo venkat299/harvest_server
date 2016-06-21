@@ -8,7 +8,26 @@
     "test": "test"
   },
   "dependencies": {
-    "chai": "^3.5.0"
+    "bluebird": "^3.3.1",
+    "body-parser": "^1.15.0",
+    "chai": "^3.5.0",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-winston": "^1.3.1",
+    "harvest_strategy": "file:../harvest_strategy",
+    "moment": "^2.11.2",
+    "mustache-express": "^1.2.2",
+    "path": "^0.12.7",
+    "request": "^2.69.0",
+    "semantic-ui": "^2.1.8",
+    "seneca": "^2.1.0",
+    "seneca-entity": "^1.0.0",
+    "seneca-jsonfile-store": "^0.2.2",
+    "validate.js": "^0.10.0",
+    "winston": "^2.2.0"
+  },
+  "replace_dependencies": {
+    "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r"
   },
   "devDependencies": {
     "mocha": "^2.5.3"
