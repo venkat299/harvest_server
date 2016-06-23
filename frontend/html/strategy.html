@@ -1,5 +1,103 @@
  {{> dependency}}
  <body>
-Strategy list
+ 	<div class="ui raised padded container segment">
 
+ 		<!-- strategy list as cards -->
+ 		<div class="ui cards">
+ 			{{#data}}
+ 			<!-- individual strategy -->
+ 			<div class="card">
+ 				<div class="content">
+ 					<img class="right floated mini ui image" src="/client_img/mill.svg">
+
+ 					<!-- strategy header -->
+ 					<div class="header">
+ 						{{strategy_id}}
+ 					</div>
+ 					<div class="meta">
+ 						{{desc}}
+ 					</div>
+
+ 					<!-- strategy parameters and status -->
+
+ 					<div class="ui label">
+ 						<i class="rupee icon"></i>
+ 						{{budget}}
+ 						<a class="detail">Budget</a>
+ 					</div>
+ 					<div class="ui padded label">
+ 						<i class="rupee icon"></i>
+ 						{{spent}}
+ 						<a class="detail">Spent</a>
+ 					</div>
+
+
+ 					<div class="ui progress amt_spent" data-value="{{spent}}" data-total="{{budget}}" id="example6">
+ 						<div class="bar">
+ 							<div class="progress"></div>
+ 						</div>
+ 					</div>
+
+ 					<div class="ui padded label">
+ 						<i class="dashboard icon"></i>
+ 						{{equity_ceil}}%
+ 						<a class="detail">Equity Ceil</a>
+ 					</div>
+
+ 					<!-- strategy enable/disable -->
+ 					<div class="ui right floating labeled compact small dropdown button" id="{{tradingsymbol}}_dropdown">
+ 						<input type="hidden" name="status"  class="status" value="{{status}}"  autocomplete="off">
+ 						<i class="sort right icon"></i>
+ 						<span class="text">Filter</span>
+ 						<div class="menu">
+ 							<div class="item green" data-value="ACTIVE">
+ 								<a class="ui green circular label" >Active</a>
+ 							</div>
+ 							<div class="item red" data-value="INACTIVE">
+ 								<a class="ui red circular label" >Inactive</a>
+ 							</div>
+ 						</div>
+ 					</div>
+ 				</div>
+
+ 				<!-- buttons -->
+ 				<div class="extra content">
+<div class="ui vertical animated button link"  tabindex="0">
+  <div class="hidden  content" > <a href="/watchlist?strategy_id={{strategy_id}}">Watchlist</a></div>
+  <div class="visible content">
+    <i class="icon" >    <img class="ui image" src="/client_img/eggs.svg"> </i>
+  </div>
+</div>
+<div class="ui vertical animated button link"  tabindex="0">
+  <div class="hidden  content" > <a href="/strategy_stock?strategy_id={{strategy_id}}">Stocks</a></div>
+  <div class="visible content">
+    <i class="icon" >    <img class="ui image" src="/client_img/wheat.svg"> </i>
+  </div>
+</div>
+<!-- <div class="ui vertical animated button link"  tabindex="0">
+  <div class="hidden  content" > <a href="/signal_log?strategy_id={{strategy_id}}">Signal</a></div>
+  <div class="visible content">
+    <i class="icon" >    <img class="ui image" src="/client_img/milk.svg"> </i>
+  </div>
+</div> -->
+<div class="ui vertical animated button link"  tabindex="0">
+  <div class="hidden  content" >Update</a></div>
+  <div class="visible content">
+    <i class="icon save" ></i>
+  </div>
+</div>
+ 				</div>
+ 			</div>
+ 			{{/data}}
+ 		</div>
+
+ 	</div>
  </body>
+
+ <script type="text/javascript">
+ $('.amt_spent')
+ .progress()
+ ;
+ $('.dropdown').dropdown()
+
+ </script>

@@ -1,0 +1,72 @@
+ {{> dependency}}
+
+ <body>
+  <div class="ui raised padded container segment">
+   <h2 class="ui header">
+    <!-- <i class="settings icon "></i> -->
+    <img class="mini ui image" src="/client_img/flower.svg">
+    <div class="content ">
+      Order logs : {{strategy_id}}
+      <!--  <div class="sub header">_______</div> -->
+    </div>
+  </h2>
+  <div class="ui feed">
+
+    {{#data}}
+    <div class="event">
+      <div class="label">
+        <a class="ui  circular  {{order_obj.transaction_type}} label">{{order_obj.transaction_type}}</a>
+      </div>
+      <div class="content">
+        <div class="summary">
+          <a class="ui large label">
+           {{tradingsymbol}} 
+         </a> {{order_obj.transaction_type}} call triggered. Current status: <a>{{status}}</a>
+         <div class=" date format_time">
+           {{updated_time}}
+         </div>
+       </div>
+       <div class="extra images">
+        {{#trans_log}}
+
+        <a class="ui circular {{val0}} label">  {{val0}}</a>
+
+        {{/trans_log}}
+
+      </div>
+      <div class="extra text">
+        <a>{{order_obj.transaction_type}}</a> placed  for <a>{{order_obj.quantity}}  </a> qty at <a>{{order_obj.exchange}}</a>. Order_type is <a>{{order_obj.order_type}}</a>, product is <a>{{order_obj.product}}</a> with  <a>{{order_obj.validity}}</a> validity
+        <a>{{#trans_log}}</a>
+        
+        {{/trans_log}}
+
+    </div>
+<!--         <div class="meta">
+          <a class="like">
+            <i class="like icon"></i> 4 Likes
+          </a>
+        </div> -->
+      </div>
+    </div>
+    {{/data}}
+
+  </body>
+
+  <style type="text/css">
+  .BUY,.PLACED{
+   background-color: green !important;
+   color: white !important;
+ }
+ .SELL,.INIT {
+   background-color: red !important;
+   color:white !important;
+ }
+ </style>
+
+ <script type="text/javascript">
+ $('.format_time').each(function(){
+  $(this).text(timeSince(new Date(+($(this).text()))))
+});
+
+ </script>
+

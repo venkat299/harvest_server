@@ -48,6 +48,7 @@ app.use(compression());
 // ### serving static files
 app.use('/client_lib', express.static(__dirname + '/frontend/client_module')); // all js files
 app.use('/client_style', express.static(__dirname + '/frontend/css')); // all css files
+app.use('/client_img', express.static(__dirname + '/frontend/custom_img'));
 app.use('/semantic', express.static(__dirname + '/semantic'));
 
 // respond with "hello world" when a GET request is made to the homepage

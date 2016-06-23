@@ -67,13 +67,13 @@ routes.get('/retire', function(req, res, next) {
 
 });
 
-routes.get('/activate', function(req, res, next) {
+routes.get('/change_status', function(req, res, next) {
 	console.log(req.query)
 	if (!(req.query.strategy_id && req.query.tradingsymbol))
 		res.end('ERR:PARAMETERS_VALIDATION_FAILED')
 
 	var seneca = req.app.get('settings').seneca;
-	seneca.act('role:watchlist,cmd:activate', req.query, function(err, val) {
+	seneca.act('role:watchlist,cmd:change_status', req.query, function(err, val) {
 		//console.log('val-->',val)
 		if (err)
 			res.end(err)

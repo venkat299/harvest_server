@@ -1,0 +1,79 @@
+ {{> dependency}}
+
+ <body>
+  <div class="ui raised padded container segment">
+ <h2 class="ui header">
+        <!-- <i class="settings icon "></i> -->
+        <img class="mini ui image" src="/client_img/sunflower.svg">
+        <div class="content ">
+          Signal logs : {{strategy_id}}
+          <!--  <div class="sub header">_______</div> -->
+        </div>
+      </h2>
+    <div class="ui feed">
+
+      {{#data}}
+      <div class="event">
+        <div class="label">
+          <a class="ui {{transaction_type}}  circular label">{{transaction_type}}</a>
+        </div>
+        <div class="content">
+          <div class="summary">
+            <a class="ui large label">
+             {{tradingsymbol}} 
+           </a>  triggered. Current status: <a>{{signal_status}}</a>
+           <div class=" date format_time">
+           {{updated_time}}
+          </div>
+        </div>
+         <div class="extra images">
+          {{#trans_log}}
+
+          <a class="ui circular {{val1}} label">  {{val0}}</a>
+
+{{/trans_log}}
+
+        </div>
+        <div class="extra text">
+         <div class="ui list">
+          {{#trans_log}}
+
+          <div class="item">
+            <i class=" marker icon"></i>
+            <div class="content">
+              
+              <div class="description"><a>{{val0}}</a>   <i class="icon mini arrow right" > </i>   {{val1}} call signalled <a class="format_time">{{val2}}</a> ago</div>
+            </div>
+          </div>
+          {{/trans_log}}
+        </div>
+      </div>
+<!--         <div class="meta">
+          <a class="like">
+            <i class="like icon"></i> 4 Likes
+          </a>
+        </div> -->
+      </div>
+    </div>
+       {{/data}}
+
+  </body>
+
+     <style type="text/css">
+.BUY{
+ background-color: green !important;
+color: white !important;
+}
+.SELL {
+ background-color: red !important;
+color:white !important;
+}
+  </style>
+
+  <script type="text/javascript">
+    $('.format_time').each(function(){
+    $(this).text(timeSince(new Date(+($(this).text()))))
+  });
+
+  </script>
+
