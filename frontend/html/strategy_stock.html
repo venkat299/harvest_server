@@ -1,7 +1,7 @@
  {{> dependency}}
  <body>
 
-  <div class="ui raised padded container segment">
+ <!--  <div class="ui raised padded container segment"> -->
 
     <input hidden="true"  class="strategy_id" value={{strategy_id}}>
     <input hidden="true"  class="temp" >
@@ -34,11 +34,10 @@
       </div>
     </div>
        </th>
-     </th>
-
+<th colspan="5"></th>
      <tr>
       <th colspan = "1">Symbol</th>
-      <th colspan = "3">
+<!--       <th colspan = "3">
         <div class="ui fluid stackable menu">
           <a class="item active">
             Stock ceil %
@@ -54,12 +53,20 @@
         </div>
 
 
-      </th>
+      </th> -->
+      <th colspan = "1">Stock ceil %</th>
+  <th colspan = "1"> Net ror %</th>
+  <th colspan = "1">Profit margin %</th>
   <!-- <th colspan = "1">nrr</th>
   <th colspan = "1">profit margin</th> -->
   <th colspan = "1">buy price threshold</th>
   <th colspan = "1">prev buy price</th>
   <th colspan = "1">prev sell price</th>
+    <th colspan = "1">Signal status</th>
+  <th colspan = "1">Order status</th>
+    <th colspan = "1">Trade</th>
+  <th colspan = "1">Qty</th>
+   <th colspan = "1">Close</th>
   <!--   <th>Routine</th> -->
 </tr>
 </thead>
@@ -74,28 +81,36 @@
       </div>
     </div>
   </td>
-  <td colspan = "3">
+<!--   <td colspan = "3">
    <form class="ui form small"   autocomplete="off">
     <div class="three fields">
       <div class="field ">
-       <input type="text" name="first-name" value="{{stock_ceil}}">
+       <input type="text" name="first-name" class="round_num" value="{{stock_ceil}}">
      </div>
      <div class="field ">
-      <input type="text" name="last-name" value="{{nrr}}">
+      <input type="text" name="last-name" class="round_num"  value="{{nrr}}">
     </div>
     <div class="field">
-      <input type="text" name="last-name" value="{{profit_margin}}">
+      <input type="text" name="last-name" class="round_num"  value="{{profit_margin}}">
     </div>
   </div>
 </form>
-</td>
-
+</td> -->
+<td colspan = "1" class="round_num">{{stock_ceil}}</td>
+<td colspan = "1" class="round_num" >{{nrr}}</td>
+<td colspan = "1" class="round_num">{{profit_margin}}</td>
 <!-- <td>{{stock_ceil}}</td>
 <td>{{nrr}}</td>
 <td>{{profit_margin}}</td> -->
 <td colspan = "1">{{buy_price_threshold}}</td>
 <td colspan = "1">{{prev_buy_price}}</td>
 <td colspan = "1">{{prev_sell_price}}</td>
+<td colspan = "1">{{signal_log.signal_status}}</td>
+<td colspan = "1">{{order_log.status}}</td>
+<td colspan = "1">{{order_log.order_obj.transaction_type}}</td>
+<td colspan = "1">{{order_log.order_obj.quantity}}</td>
+<td colspan = "1">{{close}}</td>
+
 
 
 
@@ -103,5 +118,20 @@
 {{/data}}
 </tbody>
 </table>
-</div>
+<!-- </div> -->
 </body>
+<script type="text/javascript">
+  $(function(){
+  // convert unix date to readable date
+  // $('.format_time').each(function(){
+  //   $(this).text((new Date(+($(this).text()))).toString().substr(0,11))
+  // });
+  $('.round_num').each(function(){
+    $(this).text( parseFloat(+($(this).text()),3).toFixed(3) )
+  });  
+    $('.format_time').each(function(){
+    $(this).text(timeSince(new Date(+($(this).text()))))
+  });
+
+})
+</script>

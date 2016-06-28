@@ -30,3 +30,8 @@ git_general_commit:
 	git push
 
 
+run_server:
+	clear && printf '\e[3J';
+	nodemon ./index.js -d 0 --exitcrash
+
+

@@ -15,6 +15,7 @@ var https = require('https');
 // =======================
 var routes = require('./server/router');
 var config = require('./config.json');
+var start_task = require('./server/tasks')
 //var logger = require('./app_logger').logger;
 // var ssl_config     = {
 //     key: fs.readFileSync('file.pem'),
@@ -61,11 +62,16 @@ app.use('/semantic', express.static(__dirname + '/semantic'));
 
 
 //######### seneca api integration ##########
-
+var harvest_data = require('harvest_data');
 var harvest_strategy = require('harvest_strategy');
+var harvest_evaluator = require('harvest_evaluator');
+var harvest_executor = require('harvest_executor');
 var seneca = require('seneca')()
 	.use('entity')
+	.use(harvest_data)
 	.use(harvest_strategy)
+	.use(harvest_evaluator)
+	.use(harvest_executor)
 	.client({port:'8000'})
 
 
@@ -115,6 +121,8 @@ server.listen(8000, function() {
 	var host = server.address().address
 	var port = server.address().port
 	console.log('app listening at http://%s :%s ', host, port)
+	console.log('starting tasks')
+	start_task(app.get('settings').seneca)
 })
 
 // ### start app

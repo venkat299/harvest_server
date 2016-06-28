@@ -2,58 +2,38 @@
 // private lib
 // =======================
 var routes = require('express').Router();
-
+var sort = require('../helper/sort')
 // ========== logout 
 routes.get('/', function(req, res, next) {
 	//console.log(req.query)
-	var val = {success:true,
-		strategy_id:"fifty_2_wk",data:[ 
-		{
-			"entity$": {
-				"name": "strategy_stock"
-			},
-			"strategy_id": "fifty_2_wk",
-			"tradingsymbol": "YESBANK",
-			"stock_ceil": 0.4,
-			"nrr": 0.8,
-			"profit_margin": 1.1,
-			"buy_price_threshold": 1.25,
-			"prev_buy_price": 990,
-			"prev_sell_price": 140,
-			"id": "edf25z"
-		},
-			{
-			"entity$": {
-				"name": "strategy_stock"
-			},
-			"strategy_id": "fifty_2_wk",
-			"tradingsymbol": "DENA",
-			"stock_ceil": 0.4,
-			"nrr": 0.8,
-			"profit_margin": 1.1,
-			"buy_price_threshold": 1.25,
-			"prev_buy_price": 990,
-			"prev_sell_price": 140,
-			"id": "edf25z"
-		},
-			{
-			"entity$": {
-				"name": "strategy_stock"
-			},
-			"strategy_id": "fifty_2_wk",
-			"tradingsymbol": "SBI",
-			"stock_ceil": 0.4,
-			"nrr": 0.8,
-			"profit_margin": 1.1,
-			"buy_price_threshold": 1.25,
-			"prev_buy_price": 990,
-			"prev_sell_price": 140,
-			"id": "edf25z"
-		}
-]}
-	res.render('strategy_stock', val);
+	console.log(req.query)
+	if (!req.query.strategy_id)
+		res.end('ERR:PARAMETERS_VALIDATION_FAILED')
+
+var seneca = req.app.get('settings').seneca;
+	seneca.act('role:strategy_stock,cmd:all', req.query, function(err, val) {
+		//console.log('val-->',val)
+		if (err)
+			res.end(err)
+		 val.data = sort_watchlist(val.data)
+		val.strategy_id=req.query.strategy_id
+		        seneca.make$('eod').list$(function(err,ls){
+             if (err) res.end(err)
+            ls.forEach(function(eod){
+                var idx = val.data.findIndex((item)=>{return item.tradingsymbol===eod.tradingsymbol})
+                val.data[idx].close = eod.close
+            })
+        //console.log(val.data[0],ls)
+            res.render('strategy_stock', val);
+        })
+	})
 });
 
 
+function sort_watchlist(list) {
+    // Sort by price high to low
+    list.sort(sort('nrr', true, parseFloat));
+    return list
+}
 
 module.exports.routes = routes;

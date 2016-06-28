@@ -3,68 +3,76 @@
 
   <div class="ui raised padded container segment">
 
-  <input hidden="true"  class="strategy_id" value={{strategy_id}}>
-  <input hidden="true"  class="temp" >
-  <table class="ui striped selectable collapsing small celled  table">
-    <thead>
+    <input hidden="true"  class="strategy_id" value={{strategy_id}}>
+    <input hidden="true"  class="temp" >
+    <table class="ui striped selectable collapsing small celled  table">
+      <thead>
 
-     <tr>
-            <th colspan = "6">
-       <h2 class="ui header dash_header">
-        <!-- <i class="settings icon "></i> -->
-        <img class="mini ui image" src="/client_img/eggs.svg">
-        <div class="content ">
-          Watchlist : {{strategy_id}}
-          <!--  <div class="sub header">_______</div> -->
+       <tr>
+        <th colspan = "5">
+         <h2 class="ui header dash_header">
+          <!-- <i class="settings icon "></i> -->
+          <img class="mini ui image" src="/client_img/eggs.svg">
+          <div class="content ">
+            Watchlist : {{strategy_id}}
+            <!--  <div class="sub header">_______</div> -->
+          </div>
+        </th>
+        <th colspan = "1">        <div class="ui vertical left tiny  animated button link"  tabindex="0">
+          <div class="visible  content left" >Stocks </a></div>
+          <div class="hidden content">
+            <a href="/strategy_stock?strategy_id={{strategy_id}}"> <i class="icon list" ></i></a> 
+          </div>
         </div>
-      </th>
-
       </th>
       <tr>
 
-      <th colspan = "2">
-        <div class="ui search small search_stock" data-action="watchlist search">
-          <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Search">
-            <i class="search icon"></i>
+        <th colspan = "2">
+          <div class="ui search small search_stock" data-action="watchlist search">
+            <div class="ui icon input">
+              <input class="prompt" type="text" placeholder="Search">
+              <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
           </div>
-          <div class="results"></div>
-        </div>
-      </th>
+        </th>
 
-      <th colspan="2">
-       <button class="ui right floated small labeled icon button add_stock" data-action="watchlist add">
-         <i class="right add icon" ></i>
-         Add
-       </button>
-     </th>
+        <th colspan="2">
+         <button class="ui right floated small labeled icon button add_stock" data-action="watchlist add">
+           <i class="right add icon" ></i>
+           Add
+         </button>
+       </th>
 
-           <th colspan="2">
-       <button class="ui right floated  center small labeled icon button run_all" data-action="watchlist run_all">
-         <i class="right refresh icon" ></i>
-         Run All
-       </button>
-     </th>
+       <th colspan="2">
+         <button class="ui right floated small labeled icon button run_routine_all" data-strategy_id="{{strategy_id}}"  data-action="watchlist routine_all">
+           <i class="right refresh icon" ></i>
+           Run all
+         </button>
+       </th>
 
-   </h2>
- </tr>
- <tr>
-  <th>Symbol</th>
-  <th>IsActive</th>
-  <th class="descending">ROR</th>
-  <th class="descending">&mu;</th>
-  <th class="ascending">&sigma;</th>
-  <th class="time" >Updated</th>
-  <!--   <th>Routine</th> -->
-</tr>
+     </h2>
+   </tr>
+   <tr>
+    <th>Symbol</th>
+    <th>IsActive</th>
+    <th class="descending">ROR</th>
+    <th class="descending">&mu;</th>
+    <th class="ascending">&sigma;</th>
+    <th class="time" >Updated</th>
+     <th class="time" >Close</th>
+     <th class="time" >Status</th>
+
+    <!--   <th>Routine</th> -->
+  </tr>
 </thead>
 <tbody>
   {{#data}}
   <tr id="{{tradingsymbol}}" >
    <!--  <td>{{tradingsymbol}}</td> -->
    <td colspan="1">
-    <button class="ui right icon small compact button run_routine"  data-strategy_id="{{strategy_id}}" data-tradingsymbol="{{tradingsymbol}}" data-action="watchlist routine">
-     <i class="right repeat icon" ></i>
+    <button class="ui right icon small fluid compact button run_routine"  data-strategy_id="{{strategy_id}}" data-tradingsymbol="{{tradingsymbol}}" data-action="">
+     <i class="right bar chart icon" ></i>
      {{tradingsymbol}}
    </button>
  </td>
@@ -95,6 +103,8 @@
 <td>{{returns_mean}}</td>
 <td class="round_num">{{returns_std}}</td>
 <td class="format_time" id="time_{{tradingsymbol}}">{{update_time}}</td>
+<td >{{close}}</td>
+<td >{{signal_status}}</td>
 
 </tr>
 {{/data}}
@@ -133,12 +143,26 @@
   'watchlist search'      : '/watchlist/search?q={query}',
   'watchlist monthly_eod'      : '/watchlist/monthly_eod?', //TODO to remove from this file
   'watchlist change_status'      : '/watchlist/change_status?',
-    'watchlist run_all'      : '/watchlist/run_all?'
+  'watchlist routine_all'      : '/watchlist/routine_all?strategy_id={strategy_id}'
 };
 
 $('.run_routine.button')
 .api({
   onSuccess: function(response) {
+      // valid response and response.success = true
+      location.reload()
+    },
+    onFailure:onFailure ,
+    onError:onError,
+  }).state({
+    onActivate: function() {
+      $(this).state('flash text');
+    }
+  });
+
+  $('.run_routine_all.button')
+  .api({
+    onSuccess: function(response) {
       // valid response and response.success = true
       location.reload()
     },
@@ -233,7 +257,7 @@ $('.run_routine.button')
   $('.round_num').each(function(){
     $(this).text( parseFloat(+($(this).text()),2).toFixed(2) )
   });  
-    $('.format_time').each(function(){
+  $('.format_time').each(function(){
     $(this).text(timeSince(new Date(+($(this).text()))))
   });
 
