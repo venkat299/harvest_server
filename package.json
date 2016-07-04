@@ -36,7 +36,11 @@
     "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r"
   },
   "devDependencies": {
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "harvest_data": "file:///Users/venkat299/code/harvest_api/harvest_data",
+    "harvest_evaluator": "file:///Users/venkat299/code/harvest_api/harvest_evaluator",
+    "harvest_executor": "file:///Users/venkat299/code/harvest_api/harvest_executor",
+    "harvest_strategy": "file:///Users/venkat299/code/harvest_api/harvest_strategy"
   },
   "scripts": {
     "test": "mocha"

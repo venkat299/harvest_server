@@ -4,7 +4,7 @@ module.exports.set = function(app, settings) {
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
-		res.render('index');
+		res.render('strategy');
 		//res.redirect('/login');
 	});
 

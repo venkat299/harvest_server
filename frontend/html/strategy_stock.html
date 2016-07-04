@@ -1,5 +1,6 @@
  {{> dependency}}
- <body>
+ <!-- plotly dependency for this page -->
+<script type="text/javascript" src="/client_lib/plotly-latest.min.js"></script> 
 
  <!--  <div class="ui raised padded container segment"> -->
 
@@ -74,7 +75,7 @@
   {{#data}}
   <tr id="{{tradingsymbol}}" >
    <td colspan="1">
-    <div class="ui vertical left tiny fluid animated button link"  tabindex="0">
+    <div class="ui vertical left tiny fluid animated button link show_chart"  tabindex="0">
       <div class="visible  content left" > {{tradingsymbol}}</a></div>
       <div class="hidden content">
         <i class="icon save" ></i>
@@ -118,7 +119,29 @@
 {{/data}}
 </tbody>
 </table>
-<!-- </div> -->
+<!-- modal for displaying chart -->
+<div id="modal">
+  <div class="ui basic modal">
+  <i class="close icon"></i>
+  <div class="header">More info
+  </div>
+  <div id="tester">
+
+  </div>
+<!--   <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui cancel red basic inverted button">
+        <i class="remove icon"></i>
+        No
+      </div>
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Yes
+      </div>
+    </div>
+  </div> -->
+</div>
+</div>
 </body>
 <script type="text/javascript">
   $(function(){
@@ -134,4 +157,13 @@
   });
 
 })
+  $(document).on("click", ".show_chart", function () {
+          TESTER = document.getElementById('tester');
+  Plotly.plot( TESTER, [{
+  x: [1, 2, 3, 4, 5],
+  y: [1, 2, 4, 8, 16] }], {
+  margin: { t: 0 } } );
+    $(".ui.modal").modal("show");
+})
+
 </script>

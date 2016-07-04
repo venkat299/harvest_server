@@ -1,4 +1,6 @@
  {{> dependency}}
+  <!-- plotly dependency for this page -->
+<script type="text/javascript" src="/client_lib/plotly-latest.min.js"></script> 
  <body>
 
   <div class="ui raised padded container segment">
@@ -71,7 +73,7 @@
   <tr id="{{tradingsymbol}}" >
    <!--  <td>{{tradingsymbol}}</td> -->
    <td colspan="1">
-    <button class="ui right icon small fluid compact button run_routine"  data-strategy_id="{{strategy_id}}" data-tradingsymbol="{{tradingsymbol}}" data-action="">
+    <button class="ui right icon small fluid compact button show_chart"  data-strategy_id="{{strategy_id}}" data-tradingsymbol="{{tradingsymbol}}" value="{{tradingsymbol}}">
      <i class="right bar chart icon" ></i>
      {{tradingsymbol}}
    </button>
@@ -110,6 +112,29 @@
 {{/data}}
 </tbody>
 </table>
+</div>
+<!-- modal for displaying chart -->
+<div id="modal">
+  <div class="ui basic modal">
+  <i class="close icon"></i>
+  <div class="header">More info
+  </div>
+  <div id="tester">
+
+  </div>
+<!--   <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui cancel red basic inverted button">
+        <i class="remove icon"></i>
+        No
+      </div>
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Yes
+      </div>
+    </div>
+  </div> -->
+</div>
 </div>
 </body>
 
@@ -262,4 +287,54 @@ $('.run_routine.button')
   });
 
 })
+    $(document).on("click", ".show_chart", function (obj) {
+      var id =this.value
+
+  //         TESTER = document.getElementById('tester');
+
+  // Plotly.plot( TESTER, [{
+  // x: [...Array(extra_info[id].fixed_returns.length+1).keys()].slice(1),
+  // y: extra_info[id].fixed_returns }], {
+  // margin: { t: 0 } } );
+
+  var trace1 = {
+  x: [...Array(extra_info[id].fixed_returns.length+1).keys()].slice(1),
+  y: extra_info[id].fixed_returns,
+   name: 'Returns earned',
+  type: 'bar'
+};
+
+var trace2 = {
+  x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+  y: extra_info[id].cycle_periods,
+  name: 'Holding Period',
+  yaxis: 'y2',
+   type: 'line'
+  //  mode: 'markers',
+  // marker: {
+  //   size:extra_info[id].cycle_periods
+  // }
+};
+
+var layout = {
+  title: 'Returns for Rs 10k investment in last 3 yrs',
+  yaxis: {title: 'Returns in Rs.'},
+  yaxis2: {
+    title: 'Holding Period (In Days)',
+    titlefont: {color: 'rgb(148, 103, 189)'},
+    tickfont: {color: 'rgb(148, 103, 189)'},
+    overlaying: 'y',
+    side: 'right'
+  }
+};
+
+var data = [trace1, trace2];
+
+Plotly.newPlot('tester', data, layout);
+
+    $(".ui.modal").modal("show");
+})
+    
+    var extra_info = { {{#data}} {{tradingsymbol}} : { fixed_returns :  [{{#extra_info.fixed_returns}}{{.}},{{/extra_info.fixed_returns}} ],cycle_periods :  [{{#extra_info.cycle_periods}}{{.}},{{/extra_info.cycle_periods}} ]}, {{/data}} x:{} }
+    
   </script>

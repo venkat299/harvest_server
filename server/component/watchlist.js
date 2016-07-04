@@ -13,15 +13,18 @@ routes.get('/', function(req, res, next) {
         if (err) res.end(err)
         val.data = sort_watchlist(val.data)
         val.strategy_id = req.query.strategy_id
-        seneca.make$('eod').list$(function(err,ls){
-             if (err) res.end(err)
-            ls.forEach(function(eod){
-                var idx = val.data.findIndex((item)=>{return item.tradingsymbol===eod.tradingsymbol})
-                val.data[idx].close = eod.close
-            })
-        //console.log(val.data[0],ls)
-            res.render('watchlist', val);
-        })
+        // seneca.make$('eod').list$(function(err,ls){
+        //      if (err) res.end(err)
+        //     ls.forEach(function(eod){
+        //         var idx = val.data.findIndex((item)=>{return item.tradingsymbol===eod.tradingsymbol})
+        //         if(idx>=0)
+        //         val.data[idx].close = eod.close
+        //     })
+        // //console.log(val.data[0],ls)
+        //     res.render('watchlist', val);
+        // })
+        //val.data.map(function(item){return item.extra_info_str=JSON.stringify(item.extra_info)})
+    res.render('watchlist', val);
 
         
     })
