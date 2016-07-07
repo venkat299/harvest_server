@@ -59,6 +59,10 @@
                     <th class="descending">ROR</th>
                     <th class="descending">&mu;</th>
                     <th class="ascending">&sigma;</th>
+                    <th class="ascending">Median</th>
+                    <th class="descending">&mu;/&sigma;</th>
+                    <th class="descending">&mu; Hold Days</th>
+                    <th class="ascending">&sigma; Hold Days</th>
                     <th class="time">Updated</th>
                     <th class="time">Close</th>
                     <th class="time">Status</th>
@@ -97,6 +101,10 @@
                     <td class="round_num">{{ror}}</td>
                     <td>{{returns_mean}}</td>
                     <td class="round_num">{{returns_std}}</td>
+                    <td >{{extra_info.returns_median}}</td>
+                    <td class="round_num">{{extra_info.score}}</td>
+                    <td >{{extra_info.hold_days_mean}}</td>
+                    <td class="round_num">{{extra_info.hold_days_std}}</td>
                     <td class="format_time" id="time_{{tradingsymbol}}">{{update_time}}</td>
                     <td>{{close}}</td>
                     <td>{{signal_status}}</td>
@@ -273,6 +281,7 @@ $('.run_routine.button')
   $('.round_num').each(function(){
     $(this).text( parseFloat(+($(this).text()),2).toFixed(2) )
   });  
+
   $('.format_time').each(function(){
     $(this).text(timeSince(new Date(+($(this).text()))))
   });
