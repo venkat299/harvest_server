@@ -192,19 +192,25 @@ $(".ui.modal").modal("show");
 
 
 //request for eod and set it
+
+    // request signal_log for this current strategy
+$.ajax({
+  url: '/eod/all?',
+  // data: data,
+  success: function(val){
+    //console.log(val)
     $('.eod').each(function() {
       var symbol =  $(this).attr('symbol')
       var elem=$(this)
-        $.ajax({
-            url: '/eod/one?tradingsymbol='+symbol,
-            // data: data,
-            success: function(val){
-                          //console.log(val)
-                          elem.text(val[0].close)
-                          },
-                          dataType: 'json'
-                        });
+      elem.text(val[symbol].close)
       });
+  },
+  dataType: 'json'
+});
+
+
+
+
     //request signal_log for this current strategy
 
 })
