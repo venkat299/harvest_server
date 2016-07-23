@@ -1,12 +1,12 @@
 {
     "tasks": [
         {
-            "name": "##eod",
-            "update_date": "2016-07-04",
+            "name": "#eod",
+            "update_date": "2016-07-11",
             "status": "COMPLETE"
         },
         {
-            "name": "##eod_run"
+            "name": "#eod_run"
         }
     ]
 }

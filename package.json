@@ -36,11 +36,16 @@
     "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r"
   },
   "devDependencies": {
-    "mocha": "^2.5.3",
+    "eslint": "^3.1.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.11.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^5.2.2",
     "harvest_data": "file:///Users/venkat299/code/harvest_api/harvest_data",
     "harvest_evaluator": "file:///Users/venkat299/code/harvest_api/harvest_evaluator",
     "harvest_executor": "file:///Users/venkat299/code/harvest_api/harvest_executor",
-    "harvest_strategy": "file:///Users/venkat299/code/harvest_api/harvest_strategy"
+    "harvest_strategy": "file:///Users/venkat299/code/harvest_api/harvest_strategy",
+    "mocha": "^2.5.3"
   },
   "scripts": {
     "test": "mocha"

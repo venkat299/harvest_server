@@ -10,7 +10,7 @@ routes.get('/', function(req, res, next) {
     seneca.act('role:signal_log,cmd:all', req.query, function(err, val) {
         //console.log('val-->',val)
         if (err) res.end(err)
-        //val.data = sort_watchlist(val.data)
+            //val.data = sort_watchlist(val.data)
         val.strategy_id = req.query.strategy_id
         val.data.forEach(function(item) {
             item.trans_log = item.log.map((x) => {
@@ -25,14 +25,17 @@ routes.get('/', function(req, res, next) {
         res.render('signal_log', val);
     })
 });
-routes.get('/all?', function(req, res, next) {
+routes.get('/update?', function(req, res, next) {
     console.log(req.query)
-    if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
+    if (!req.query.strategy_id || !req.query.tradingsymbol || !req.query.action) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
+    var url = ''
+    if (req.query.action === 'REVERT') url = 'role:signal_log,cmd:revert_signal'
+    if (req.query.action === 'DELETE') url = 'role:signal_log,cmd:delete_hard'
     var seneca = req.app.get('settings').seneca;
-    seneca.act('role:signal_log,cmd:all', req.query, function(err, val) {
+    seneca.act(url, req.query, function(err, val) {
         //console.log('val-->',val)
         if (err) res.end(err)
-        //val.data = sort_watchlist(val.data)
+            //val.data = sort_watchlist(val.data)
         val.strategy_id = req.query.strategy_id
         val.success = true
         res.json(val);

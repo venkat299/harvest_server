@@ -1,8 +1,10 @@
  {{> dependency}}
 
- <body>
-  <div class="ui raised padded container segment">
- <h2 class="ui header">
+<body>
+        <input hidden="true" class="strategy_id" value={{strategy_id}}>
+        <input hidden="true" class="temp">
+    <div class="ui raised padded container segment">
+        <h2 class="ui header">
         <!-- <i class="settings icon "></i> -->
         <img class="mini ui image" src="/client_img/sunflower.svg">
         <div class="content ">
@@ -10,70 +12,116 @@
           <!--  <div class="sub header">_______</div> -->
         </div>
       </h2>
-    <div class="ui feed">
-
-      {{#data}}
-      <div class="event">
-        <div class="label">
-          <a class="ui {{transaction_type}}  circular label">{{transaction_type}}</a>
-        </div>
-        <div class="content">
-          <div class="summary">
-            <a class="ui large label">
-             {{tradingsymbol}} 
-           </a>  triggered. Current status: <a>{{signal_status}}</a>
-           <div class=" date format_time">
-           {{updated_time}}
-          </div>
-        </div>
-         <div class="extra images">
-          {{#trans_log}}
-
-          <a class="ui circular {{val1}} label">  {{val0}}</a>
-
-{{/trans_log}}
-
-        </div>
-        <div class="extra text">
-         <div class="ui list">
-          {{#trans_log}}
-
-          <div class="item">
-            <i class=" marker icon"></i>
-            <div class="content">
-              
-              <div class="description"><a>{{val0}}</a>   <i class="icon mini arrow right" > </i>   {{val1}} call signalled <a class="format_time">{{val2}}</a> ago</div>
-            </div>
-          </div>
-          {{/trans_log}}
-        </div>
-      </div>
-<!--         <div class="meta">
+        <div class="ui feed">
+            {{#data}}
+            <div class="event">
+                <div class="label">
+                    <a class="ui {{transaction_type}}  circular label">{{transaction_type}}</a>
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        <a class="ui large label">{{tradingsymbol}}</a> triggered. Current status: <a>{{signal_status}}</a>
+                        <div class=" date format_time">
+                            {{updated_time}}
+                        </div>
+                        <a>
+                            <div class="ui floating labeled compact small dropdown button" id="{{tradingsymbol}}_dropdown">
+                                <input type="hidden" name="status" class="status" value="{{status}}" autocomplete="off">
+                                <i class="sort icon"></i>
+                                <span class="text">Filter</span>
+                                <div class="menu">
+                                    <div class="item green" data-value="REVERT">
+                                        <a class="ui green circular label">REVERT</a>
+                                    </div>
+                                    <div class="item red" data-value="DELETE">
+                                        <a class="ui red circular label">DELETE</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="extra images">
+                        {{#trans_log}}
+                        <a class="ui circular {{val1}} label">  {{val0}}</a> {{/trans_log}}
+                    </div>
+                    <div class="extra text">
+                        <div class="ui list">
+                            {{#trans_log}}
+                            <div class="item">
+                                <i class=" marker icon"></i>
+                                <div class="content">
+                                    <div class="description"><a>{{val0}}</a> <i class="icon mini arrow right"> </i> {{val1}} call signalled <a class="format_time">{{val2}}</a> ago</div>
+                                </div>
+                            </div>
+                            {{/trans_log}}
+                        </div>
+                    </div>
+                    <!--         <div class="meta">
           <a class="like">
             <i class="like icon"></i> 4 Likes
           </a>
         </div> -->
-      </div>
-    </div>
-       {{/data}}
-
-  </body>
-
-     <style type="text/css">
-.BUY{
- background-color: green !important;
-color: white !important;
+                </div>
+            </div>
+            {{/data}}
+</body>
+<style type="text/css">
+.BUY {
+    background-color: green !important;
+    color: white !important;
 }
+
 .SELL {
- background-color: red !important;
-color:white !important;
+    background-color: red !important;
+    color: white !important;
 }
-  </style>
+</style>
+<script type="text/javascript">
+    var onFailure =  function(response) {
+      // request failed, or valid response but response.success = false
+      console.log('operation failed')
+    }
+    var onError =  function(errorMessage) {
+      // invalid response
+      console.log('request failed')
+    }
+/* Define API endpoints once globally */
+$.fn.api.settings.api = {
+    'watchlist change_status': '/signal_log/update?'
+};
 
-  <script type="text/javascript">
-    $('.format_time').each(function(){
+$('.format_time').each(function() {
     $(this).text(timeSince(new Date(+($(this).text()))))
-  });
+});
 
-  </script>
-
+$('.dropdown')
+    .dropdown({
+        onChange: function(value, text, $selectedItem) {
+            //console.log(value, text, $selectedItem)
+            var strategy_id = $('input.strategy_id').val();
+            var status = $(this).dropdown('get value')
+            var tradingsymbol = ($(this).dropdown().prop('id')).split('_')[0];
+            $('.temp').api({
+                action: 'watchlist change_status',
+                on: 'now',
+                // passed via POST
+                data: {
+                    strategy_id: strategy_id,
+                    action: status,
+                    tradingsymbol: tradingsymbol
+                        //($selectedItem.before())[0].getAttribute('data-value')
+                },
+                onSuccess: function(response) {
+                    // valid response and 
+                    //console.log(response)
+                    if(response.success)
+                    location.reload()
+                  else
+                    console.log('request failed:',response)
+                },
+                onFailure: onFailure,
+                onError: onError
+            })
+        }
+    });
+</script>

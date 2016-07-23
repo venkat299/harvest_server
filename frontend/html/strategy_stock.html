@@ -167,6 +167,40 @@ $.ajax({
   // }
 };
 
+var trace3 = {
+   x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+    y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].returns_median)                ,
+  mode: 'lines',
+  name: 'returns_median',
+  line: {
+    dash: 'dashdot',
+    width: 1
+  }
+};
+var trace4 = {
+   x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+    y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].returns_std)               ,
+  mode: 'lines',
+  name: 'returns_mean',
+  line: {
+    dash: 'dashdot',
+    width: 1
+  }
+};
+
+var trace5 = {
+   x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+    y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].hold_days_mean)             ,
+  mode: 'lines',
+   yaxis: 'y2',
+  name: 'hold_days_mean',
+  line: {
+    dash: 'dashdot',
+    width: 1
+  }
+};
+
+
 var layout = {
   title: 'Returns for Rs 10k investment in last 3 yrs',
   yaxis: {title: 'Returns in Rs.'},
@@ -179,7 +213,7 @@ var layout = {
   }
 };
 
-var data = [trace1, trace2];
+var data = [trace1, trace2,trace3,trace4,trace5];
 
 Plotly.newPlot('tester', data, layout);
 
