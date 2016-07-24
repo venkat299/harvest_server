@@ -1,12 +1,25 @@
 {
-    "tasks": [
-        {
-            "name": "#eod",
-            "update_date": "2016-07-11",
-            "status": "COMPLETE"
-        },
-        {
-            "name": "#eod_run"
-        }
-    ]
+  "active_tasks": [
+    "eod",
+    "clean_signals",
+    "fifty_2_wk"
+  ],
+
+  "task_list": {
+    "eod": {
+      "name": "eod",
+      "update_date": "2016-07-11",
+      "status": "COMPLETE"
+    },
+    "eod_run": {
+      "name": "eod_run"
+    },
+    "clean_signals": {
+      "name": "clean_signals"
+    },
+    "fifty_2_wk": {
+      "name": "fifty_2_wk"
+    }
+  }
+
 }
