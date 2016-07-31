@@ -4,7 +4,11 @@ test/test_db/
 coverage
 .DS_Store
 *.log
-/semantic
+
+/semantic/src/*
+/semantic/tasks/*
+
+
 /download
 /server/python_node_ipc
 
