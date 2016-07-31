@@ -5,6 +5,8 @@ coverage
 .DS_Store
 *.log
 /semantic
+!.gitignore
+!/semantic/dist/*
 /download
 /server/python_node_ipc
 
