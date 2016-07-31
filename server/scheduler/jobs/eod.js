@@ -1,14 +1,16 @@
+const logger = require('winston');
+
 function download(agenda, seneca, job, done) {
   seneca.make$('strategy_stock').list$({
     status: 'ACTIVE',
   }, (err, list) => {
-    if (err) console.log(err);
+    if (err) logger.error(err);
     const symbols = list.reduce((x, y) => x.concat([y.tradingsymbol]), []);
-    console.log(symbols);
+    logger.debug(symbols);
     seneca.act('role:data,comp:eod,cmd:download', {
       data: symbols,
     }, (error, msg) => {
-      console.log(msg);
+      logger.info(msg);
       if (msg.success) {
         // call final callback after succesfull job completion
         done();
@@ -18,7 +20,9 @@ function download(agenda, seneca, job, done) {
   });
 }
 
-module.exports = function (agenda, seneca) {
+// Asia/Kolkata
+
+module.exports = (agenda, seneca) => {
   agenda.define('eod_download', (job, done) => {
     download(agenda, seneca, job, done);
   });

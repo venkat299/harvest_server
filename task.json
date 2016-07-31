@@ -1,8 +1,6 @@
 {
   "active_tasks": [
-    "eod",
-    "clean_signals",
-    "fifty_2_wk"
+    "eod"
   ],
 
   "task_list": {
