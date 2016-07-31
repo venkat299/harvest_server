@@ -15,10 +15,15 @@ const mustache = require('mustache-express');
 // =======================
 // private lib
 // =======================
-// const logger = require('./app_logger').logger;
 const config = require('./config.json');
 const routes = require('./server/router');
 const start_scheduler = require('./server/scheduler');
+const Logger = require('./app_logger');
+/* eslint no-unused-vars: 0 */
+// intialize logger here.
+// FIXME: (low-priority) Don't know how to configure with express-winston
+const logger = Logger.logger;
+
 // =======================
 // application logic
 // =======================
