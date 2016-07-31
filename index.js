@@ -41,7 +41,7 @@ const server = http.createServer(app);
  */
 
 // ######### log module #########
- app.use(logger);
+// app.use(logger);
 
 // ######### parsing request #########
 app.use(bodyParser.urlencoded({

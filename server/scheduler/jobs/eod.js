@@ -20,8 +20,6 @@ function download(agenda, seneca, job, done) {
   });
 }
 
-// Asia/Kolkata
-
 module.exports = (agenda, seneca) => {
   agenda.define('eod_download', (job, done) => {
     download(agenda, seneca, job, done);
@@ -30,6 +28,11 @@ module.exports = (agenda, seneca) => {
 
   // scheduling job
   agenda.on('ready', () => {
-    agenda.now('eod_download', {});
+    // agenda.now('eod_download', {});
+
+    // scheduling every day at 7 pm
+    agenda.every('0 0 7 1/1 * ? *', 'eod_download', {}, {
+      timezone: 'Asia/Kolkata',
+    });
   });
 };
