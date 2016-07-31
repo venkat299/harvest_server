@@ -16,10 +16,10 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-winston": "^1.3.1",
-    "harvest_data": "file:///Users/venkat299/code/harvest_api/harvest_data",
-    "harvest_evaluator": "file:///Users/venkat299/code/harvest_api/harvest_evaluator",
-    "harvest_executor": "file:///Users/venkat299/code/harvest_api/harvest_executor",
-    "harvest_strategy": "file:///Users/venkat299/code/harvest_api/harvest_strategy",
+    "harvest_data": "git+https://github.com/venkat299/harvest_data.git",
+    "harvest_evaluator": "git+https://github.com/venkat299/harvest_evaluator.git",
+    "harvest_executor": "git+https://github.com/venkat299/harvest_executor.git",
+    "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r",
     "jsonfile": "^2.3.1",
     "level": "^1.4.0",
     "level-jobs": "^0.6.0",
@@ -36,7 +36,11 @@
     "winston": "^2.2.0"
   },
   "replace_dependencies": {
-    "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r"
+    "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r",
+    "harvest_data": "file:///Users/venkat299/code/harvest_api/harvest_data",
+    "harvest_evaluator": "file:///Users/venkat299/code/harvest_api/harvest_evaluator",
+    "harvest_executor": "file:///Users/venkat299/code/harvest_api/harvest_executor",
+    "harvest_strategy": "file:///Users/venkat299/code/harvest_api/harvest_strategy"
   },
   "devDependencies": {
     "eslint": "^3.1.1",
@@ -44,10 +48,6 @@
     "eslint-plugin-import": "^1.11.0",
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^5.2.2",
-    "harvest_data": "file:///Users/venkat299/code/harvest_api/harvest_data",
-    "harvest_evaluator": "file:///Users/venkat299/code/harvest_api/harvest_evaluator",
-    "harvest_executor": "file:///Users/venkat299/code/harvest_api/harvest_executor",
-    "harvest_strategy": "file:///Users/venkat299/code/harvest_api/harvest_strategy",
     "mocha": "^2.5.3"
   },
   "scripts": {
