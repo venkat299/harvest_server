@@ -88,6 +88,7 @@ const seneca = require('seneca')()
 
 // ######## adding scheduler support here ######
 const app_agenda = new Agenda({
+  processEvery: '30 seconds',
   db: {
     address: `${scheduler_db_uri}`,
     collection: 'agendaJobs',
