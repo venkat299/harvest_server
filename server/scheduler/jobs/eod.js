@@ -27,12 +27,16 @@ module.exports = (agenda, seneca) => {
   // other related jobs
 
   // scheduling job
-  agenda.on('ready', () => {
-    // agenda.now('eod_download', {});
+  // agenda.on('ready', () => {
+  // agenda.now('eod_download', {});
 
-    // scheduling every day at 7 pm
-    agenda.every('0 0 7 1/1 * ? *', 'eod_download', {}, {
-      timezone: 'Asia/Kolkata',
-    });
+  // scheduling every day at 7 am: 0 0 7 1/1 * ? *
+  // every minute : 0 0/1 * 1/1 * ? *
+  agenda.every('0 0 7 1/1 * ? *', 'eod_download', {}, {
+    timezone: 'Asia/Kolkata',
+  }, () => {
+    console.log('added to database');
   });
+  agenda.start();
+  // });
 };
