@@ -1,22 +1,24 @@
 {
   "active_tasks": [
-    "eod"
+    "eod",
+    "clear_signals"
   ],
 
   "task_list": {
     "eod": {
       "name": "eod",
-      "update_date": "2016-07-11",
-      "status": "COMPLETE"
+      "cron_exp": "30 01 * * *",
+      "timezone": "Etc/UTC"
     },
-    "eod_run": {
-      "name": "eod_run"
-    },
-    "clean_signals": {
-      "name": "clean_signals"
+    "clear_signals": {
+      "name": "clear_signals",
+      "cron_exp": "45 01 * * *",
+      "timezone": "Etc/UTC"
     },
     "fifty_2_wk": {
-      "name": "fifty_2_wk"
+      "name": "fifty_2_wk",
+      "cron_exp": "45 01 * * *",
+      "timezone": "Etc/UTC"
     }
   }
 
