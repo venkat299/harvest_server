@@ -9,12 +9,13 @@ function initialize(agenda, seneca) {
     // Note: comment out after test. Not to be used in server
     agenda.purge((err, numRemoved) => {
       console.log('job removed  from db:', numRemoved);
-    });
 
-    const tasks = ((task_config).active_tasks);
-    const task_list = ((task_config).task_list);
-    tasks.forEach((item) => {
-      require('./jobs/' + task_list[item].name)(agenda, seneca);
+      // adding all jobs
+      const tasks = ((task_config).active_tasks);
+      const task_list = ((task_config).task_list);
+      tasks.forEach((item) => {
+        require('./jobs/' + task_list[item].name)(agenda, seneca);
+      });
     });
   });
 
