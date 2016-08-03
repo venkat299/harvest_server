@@ -10,7 +10,6 @@ function initialize(agenda, seneca) {
     // Note: comment out after test. Not to be used in server
     agenda.purge((err, numRemoved) => {
       logger.info('job removed  from db:', numRemoved);
-
       // adding all jobs
       const tasks = ((task_config).active_tasks);
       const task_list = ((task_config).task_list);
