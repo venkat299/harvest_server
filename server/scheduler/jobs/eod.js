@@ -32,10 +32,10 @@ module.exports = (agenda, seneca) => {
 
   // scheduling every day at 7 am: 0 0 7 1/1 * ? *
   // every minute : 0 0/1 * 1/1 * ? *
-  agenda.every('0 0 7 1/1 * ? *', 'eod_download', {}, {
+  agenda.every('01 07 * * *', 'eod_download', {}, {
     timezone: 'Asia/Kolkata',
   }, () => {
-    console.log('added to database');
+    console.log('eod job:added to database');
   });
   agenda.start();
   // });
