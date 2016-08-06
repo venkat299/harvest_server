@@ -1,7 +1,7 @@
 const logger = require('winston');
 
 function clear_signals(agenda, seneca, job, done) {
-  seneca.act('role:signal_log,cmd:clear_expired_signals', job, (error, msg) => {
+  seneca.act('role:signal_log,cmd:delete_expired', job, (error, msg) => {
     if (msg.success) {
       // call final callback after succesfull job completion
       logger.debug('clear_signals job: completed', msg);
