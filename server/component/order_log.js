@@ -22,7 +22,7 @@ routes.get('/', (req, res, next) => {
       });
       item.updated_time = item.trans_log[item.trans_log.length - 1].val1;
     });
-    logger.debug(val.data[0].updated_time);
+   // logger.debug(val.data[0].updated_time);
     res.render('order_log', val);
   });
 });
@@ -38,5 +38,12 @@ routes.get('/all', (req, res, next) => {
     val.success = true;
     res.json(val);
   });
+});
+routes.get('/approval', (req, res, next) => {
+  logger.debug(req.query);
+  // if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  console.log('request received');
+  res.json({ success: true });
 });
 module.exports.routes = routes;

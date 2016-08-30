@@ -1,5 +1,5 @@
  {{> dependency}}
-
+ {{> header}}
  <body>
   <div class="ui raised padded container segment">
    <h2 class="ui header">
@@ -79,9 +79,17 @@
  </style>
 
  <script type="text/javascript">
+    var onFailure =  function(response) {
+      // request failed, or valid response but response.success = false
+      console.log('operation failed', response)
+    }
+    var onError =  function(errorMessage) {
+      // invalid response
+      console.log('request failed', response)
+    }
 
 $.fn.api.settings.api = {
-    'order exceute': '/order_execution/approval?'
+    'order execute': '/order_log/approval?'
 };
 
 $('.format_time').each(function() {
@@ -91,27 +99,27 @@ $('.format_time').each(function() {
 $('.dropdown')
     .dropdown({
         onChange: function(value, text, $selectedItem) {
-            //console.log(value, text, $selectedItem)
+            console.log(value, text, $selectedItem)
             var strategy_id = $('input.strategy_id').val();
             var status = $(this).dropdown('get value')
             var tradingsymbol = ($(this).dropdown().prop('id')).split('_')[0];
             $('.temp').api({
-                action: 'order exceute',
+                action: 'order execute',
                 on: 'now',
                 // passed via POST
                 data: {
                     strategy_id: strategy_id,
                     action: status,
                     tradingsymbol: tradingsymbol
-                        //($selectedItem.before())[0].getAttribute('data-value')
+                        // ($selectedItem.before())[0].getAttribute('data-value')
                 },
                 onSuccess: function(response) {
-                    // valid response and 
-                    //console.log(response)
-                    if(response.success)
-                    location.reload()
-                  else
-                    console.log('request failed:',response)
+                    // valid response and
+                    console.log(response);
+                    // if(response.success)
+                    // location.reload()
+                  // else
+                    // console.log('request failed:',response)
                 },
                 onFailure: onFailure,
                 onError: onError
