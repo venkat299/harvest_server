@@ -9,6 +9,7 @@
       Order logs : {{strategy_id}}
       <!--  <div class="sub header">_______</div> -->
     </div>
+     <input hidden="true" class="strategy_id temp" value={{strategy_id}}>
   </h2>
   <div class="ui feed">
 
@@ -26,7 +27,7 @@
            {{updated_time}}
          </div>
           <a>
-           <div class="ui floating labeled compact small dropdown button" id="{{tradingsymbol}}_dropdown">
+           <div class="ui floating labeled compact small dropdown button" id="{{tradingsymbol}}_{{order_id}}_dropdown">
              <input type="hidden" name="status" class="status" value="{{status}}" autocomplete="off">
              <i class="sort icon"></i>
              <span class="text">Action</span>
@@ -103,6 +104,8 @@ $('.dropdown')
             var strategy_id = $('input.strategy_id').val();
             var status = $(this).dropdown('get value')
             var tradingsymbol = ($(this).dropdown().prop('id')).split('_')[0];
+            var order_id = ($(this).dropdown().prop('id')).split('_')[1];
+            console.log('order_id:',order_id);
             $('.temp').api({
                 action: 'order execute',
                 on: 'now',
@@ -110,14 +113,15 @@ $('.dropdown')
                 data: {
                     strategy_id: strategy_id,
                     action: status,
-                    tradingsymbol: tradingsymbol
+                    tradingsymbol: tradingsymbol,
+                    order_id:order_id,
                         // ($selectedItem.before())[0].getAttribute('data-value')
                 },
                 onSuccess: function(response) {
                     // valid response and
                     console.log(response);
                     // if(response.success)
-                    // location.reload()
+                     location.reload()
                   // else
                     // console.log('request failed:',response)
                 },

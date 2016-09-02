@@ -42,4 +42,16 @@ routes.get('/reset', (req, res) => {
   });
 });
 
+// ========== runs routine for the stock
+routes.get('/run', (req, res) => {
+  // logger.debug(req.query)
+  logger.debug(req.query);
+  if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  // const seneca = req.app.get('settings').seneca;
+  const agenda = req.app.get('settings').agenda;
+  agenda.now('fifty_2_wk_eod_run', {}, () => {
+    logger.debug('fifty_2_wk_eod_run job: added to database');
+  });
+});
+
 module.exports.routes = routes;

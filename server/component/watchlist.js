@@ -3,72 +3,62 @@
 // =======================
 const routes = require('express').Router();
 const sort = require('../helper/sort');
-    // ========== logout
+const logger = require('winston');
+// ========== logout
 routes.get('/', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:watchlist,cmd:all', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     val.data = sort_watchlist(val.data);
     val.strategy_id = req.query.strategy_id;
-        // seneca.make$('eod').list$(function(err,ls){
-        //      if (err) res.end(err)
-        //     ls.forEach(function(eod){
-        //         var idx = val.data.findIndex((item)=>{return item.tradingsymbol===eod.tradingsymbol})
-        //         if(idx>=0)
-        //         val.data[idx].close = eod.close
-        //     })
-        // //console.log(val.data[0],ls)
-        //     res.render('watchlist', val);
-        // })
-        // val.data.map(function(item){return item.extra_info_str=JSON.stringify(item.extra_info)})
     res.render('watchlist', val);
   });
 });
 routes.get('/all', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:watchlist,cmd:all', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
 });
 routes.get('/add', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:watchlist,cmd:add', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
 });
 routes.get('/retire', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:watchlist,cmd:retire', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
 });
 routes.get('/change_status', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:watchlist,cmd:change_status', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
 });
 routes.get('/remove', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const resultJson = {
     success: true,
@@ -82,21 +72,21 @@ routes.get('/remove', function (req, res, next) {
   res.json(resultJson);
 });
 routes.get('/routine', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:routine,cmd:run_routine', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
 });
 routes.get('/routine_all', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   if (!(req.query.strategy_id)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:routine,cmd:run_routine', req.query, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
@@ -104,13 +94,13 @@ routes.get('/routine_all', function (req, res, next) {
 routes.get('/monthly_eod', function (req, res, next) {
   const seneca = req.app.get('settings').seneca;
   seneca.act('role:routine,cmd:monthly_eod_update', {}, function (err, val) {
-        // console.log('val-->',val)
+    // logger.debug('val-->',val)
     if (err) res.end(err);
     res.json(val);
   });
 });
 routes.get('/search', function (req, res, next) {
-  console.log(req.query);
+  logger.debug(req.query);
   const data = dummy_stock_list.filter(function (item) {
     return item.title.toUpperCase().indexOf(req.query.q.toUpperCase()) >= 0;
   });
@@ -121,12 +111,23 @@ routes.get('/search', function (req, res, next) {
   res.json(resultJson);
 });
 
+routes.get('/reset_status', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:reset_by_strategy', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+
 function sort_watchlist(list) {
-    // Sort by price high to low
-    // list.sort(sort('returns_std', true, parseInt));
-    // list.sort(sort('returns_mean', true, parseInt));
+  // Sort by price high to low
+  // list.sort(sort('returns_std', true, parseInt));
+  // list.sort(sort('returns_mean', true, parseInt));
   list.sort(sort('ror', true, parseFloat));
-    // list.sort(sort('status', false, function(a){return a.toUpperCase()}));
+  // list.sort(sort('status', false, function(a){return a.toUpperCase()}));
 
   return list;
 }
