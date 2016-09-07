@@ -1,30 +1,56 @@
-<div class="ui attached stackable menu inverted  ">
-	<div class="ui container">
-		<a class="item" href="/feed/recent?">
-			<i class="lightning  icon"></i> New
+<div class="ui pointing inverted menu sticky" >
+  <a class="item active"  href="/strategy?">
+    Strategy
+  </a>
+  <a class="item" href="/agendash?">
+    Tasks
+  </a>
+<!--   <a class="item">
+    Friends
+  </a> -->
+  <div class="right menu">
+    <div class="item">
+      <div class="ui transparent icon input">
+        <input placeholder="Search..." type="text">
+        <i class="search link icon"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+	$('.ui.sticky')
+  .sticky()
+;
+</script>
+
+<!-- <div className="ui attached stackable menu inverted  ">
+	<div className="ui container">
+		<a className="item" href="/feed/recent?">
+			<i className="lightning  icon"></i> New
 		</a>
-		<a class="item">
-			<i class="line chart icon"></i> Trending
+		<a className="item">
+			<i className="line chart icon"></i> Trending
 		</a>
-		<a class="item">
-			<i class="heart  icon"></i> Popular
+		<a className="item">
+			<i className="heart  icon"></i> Popular
 		</a>
-		<div class="ui simple dropdown item">
+		<div className="ui simple dropdown item">
 			More
-			<i class="dropdown icon"></i>
-			<div class="menu">
-				<a class="item"><i class="edit icon"></i> Edit Profile</a>
-				<a class="item"><i class="globe icon"></i> Choose Language</a>
-				<a class="item"><i class="settings icon"></i> Account Settings</a>
+			<i className="dropdown icon"></i>
+			<div className="menu">
+				<a className="item"><i className="edit icon"></i> Edit Profile</a>
+				<a className="item"><i className="globe icon"></i> Choose Language</a>
+				<a className="item"><i className="settings icon"></i> Account Settings</a>
 			</div>
 		</div>
-		<a class=" right item" href="/upload/showUpload?">
-			<i class="cloud upload icon"></i> Upload
+		<a className=" right item" href="/upload/showUpload?">
+			<i className="cloud upload icon"></i> Upload
 		</a>
-		
-		<div class=" item">
-			<a class="ui icon input"><input type="text" placeholder="Search..."></input><i class="search icon"></i></a>
+
+		<div className=" item">
+			<a className="ui icon input"><input type="text" placeholder="Search..."></input><i className="search icon"></i></a>
 		</div>
-		
+
 	</div>
-</div>
+</div>; -->

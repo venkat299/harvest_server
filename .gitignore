@@ -1,17 +1,25 @@
+# because node
 node_modules
-examples
-test/test_db/
-coverage
-.DS_Store
-*.log
 
+# test database
+test/test_db/
+
+
+# mac file store
+.DS_Store
+
+
+# semantic build files
 /semantic/src/*
 /semantic/tasks/*
 
-
+# temporary storage folders
 /download
 /server/python_node_ipc
-
+ui/
+downloads/
+temp/
+/try_api
 
 # Logs
 logs
@@ -48,12 +56,15 @@ node_modules
 .node_repl_history
 
 
-/try_api
+
+# configuration files
 db_config.json
 config.json
+
+# aws ssh settings
 csr.pem
 file.crt
 file.pem
-ui/
-downloads/
-temp/
+
+
+

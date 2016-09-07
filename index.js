@@ -120,6 +120,7 @@ const settings = {
   // db: config.db
   // passport: passport,
   // ensureLoggedIn:ensureLoggedIn
+  agenda: app_agenda,
 };
 app.set('settings', settings);
 

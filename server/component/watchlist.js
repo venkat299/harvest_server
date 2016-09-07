@@ -1,278 +1,277 @@
 // =======================
 // private lib
 // =======================
-var routes = require('express').Router();
-var sort = require('../helper/sort')
-    // ========== logout 
-routes.get('/', function(req, res, next) {
-    console.log(req.query)
-    if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:watchlist,cmd:all', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        val.data = sort_watchlist(val.data)
-        val.strategy_id = req.query.strategy_id
-        // seneca.make$('eod').list$(function(err,ls){
-        //      if (err) res.end(err)
-        //     ls.forEach(function(eod){
-        //         var idx = val.data.findIndex((item)=>{return item.tradingsymbol===eod.tradingsymbol})
-        //         if(idx>=0)
-        //         val.data[idx].close = eod.close
-        //     })
-        // //console.log(val.data[0],ls)
-        //     res.render('watchlist', val);
-        // })
-        //val.data.map(function(item){return item.extra_info_str=JSON.stringify(item.extra_info)})
+const routes = require('express').Router();
+const sort = require('../helper/sort');
+const logger = require('winston');
+// ========== logout
+routes.get('/', function (req, res, next) {
+  logger.debug(req.query);
+  if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:all', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    val.data = sort_watchlist(val.data);
+    val.strategy_id = req.query.strategy_id;
     res.render('watchlist', val);
+  });
+});
+routes.get('/all', function (req, res, next) {
+  logger.debug(req.query);
+  if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:all', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/add', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:add', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/retire', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:retire', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/change_status', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:change_status', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/remove', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const resultJson = {
+    success: true,
+    strategy_id: req.query.strategy_id,
+    tradingsymbol: req.query.tradingsymbol,
+  };
+  const pos = dummy_data.findIndex(function (item) {
+    return item.tradingsymbol === req.query.tradingsymbol;
+  });
+  dummy_data.splice(pos, 1);
+  res.json(resultJson);
+});
+routes.get('/routine', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:routine,cmd:run_routine', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/routine_all', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:routine,cmd:run_routine', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/monthly_eod', function (req, res, next) {
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:routine,cmd:monthly_eod_update', {}, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
+});
+routes.get('/search', function (req, res, next) {
+  logger.debug(req.query);
+  const data = dummy_stock_list.filter(function (item) {
+    return item.title.toUpperCase().indexOf(req.query.q.toUpperCase()) >= 0;
+  });
+  const resultJson = {
+    success: true,
+    results: data,
+  };
+  res.json(resultJson);
+});
 
-        
-    })
-});
-routes.get('/all', function(req, res, next) {
-    console.log(req.query)
-    if (!req.query.strategy_id) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:watchlist,cmd:all', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/add', function(req, res, next) {
-    console.log(req.query)
-    if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:watchlist,cmd:add', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/retire', function(req, res, next) {
-    console.log(req.query)
-    if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:watchlist,cmd:retire', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/change_status', function(req, res, next) {
-    console.log(req.query)
-    if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:watchlist,cmd:change_status', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/remove', function(req, res, next) {
-    console.log(req.query)
-    if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var resultJson = {
-        success: true,
-        strategy_id: req.query.strategy_id,
-        tradingsymbol: req.query.tradingsymbol
-    }
-    var pos = dummy_data.findIndex(function(item) {
-        return item.tradingsymbol === req.query.tradingsymbol
-    })
-    dummy_data.splice(pos, 1)
-    res.json(resultJson);
-});
-routes.get('/routine', function(req, res, next) {
-    console.log(req.query)
-    if (!(req.query.strategy_id && req.query.tradingsymbol)) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:routine,cmd:run_routine', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/routine_all', function(req, res, next) {
-    console.log(req.query)
-    if (!(req.query.strategy_id)) res.end('ERR:PARAMETERS_VALIDATION_FAILED')
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:routine,cmd:run_routine', req.query, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/monthly_eod', function(req, res, next) {
-    var seneca = req.app.get('settings').seneca;
-    seneca.act('role:routine,cmd:monthly_eod_update', {}, function(err, val) {
-        //console.log('val-->',val)
-        if (err) res.end(err)
-        res.json(val)
-    })
-});
-routes.get('/search', function(req, res, next) {
-    console.log(req.query)
-    var data = dummy_stock_list.filter(function(item) {
-        return item.title.toUpperCase().indexOf(req.query.q.toUpperCase()) >= 0
-    })
-    var resultJson = {
-        success: true,
-        results: data
-    }
-    res.json(resultJson);
+routes.get('/reset_status', function (req, res, next) {
+  logger.debug(req.query);
+  if (!(req.query.strategy_id)) res.end('ERR:PARAMETERS_VALIDATION_FAILED');
+  const seneca = req.app.get('settings').seneca;
+  seneca.act('role:watchlist,cmd:reset_by_strategy', req.query, function (err, val) {
+    // logger.debug('val-->',val)
+    if (err) res.end(err);
+    res.json(val);
+  });
 });
 
 function sort_watchlist(list) {
-    // Sort by price high to low
-    // list.sort(sort('returns_std', true, parseInt));
-    // list.sort(sort('returns_mean', true, parseInt));
-    list.sort(sort('ror', true, parseFloat));
-    //list.sort(sort('status', false, function(a){return a.toUpperCase()}));
+  // Sort by price high to low
+  // list.sort(sort('returns_std', true, parseInt));
+  // list.sort(sort('returns_mean', true, parseInt));
+  list.sort(sort('ror', true, parseFloat));
+  // list.sort(sort('status', false, function(a){return a.toUpperCase()}));
 
-    return list
+  return list;
 }
-var dummy_stock_list = [{
-    'title': 'ACC'
+const dummy_stock_list = [{
+  'title': 'ACC',
 }, {
-    'title': 'ADANIPORTS'
+  'title': 'ADANIPORTS',
 }, {
-    'title': 'AMBUJACEM'
+  'title': 'AMBUJACEM',
 }, {
-    'title': 'ASIANPAINT'
+  'title': 'ASIANPAINT',
 }, {
-    'title': 'AUROPHARMA'
+  'title': 'AUROPHARMA',
 }, {
-    'title': 'AXISBANK'
+  'title': 'AXISBANK',
 }, {
-    'title': 'BAJAJ-AUTO'
+  'title': 'BAJAJ-AUTO',
 }, {
-    'title': 'BANKBARODA'
+  'title': 'BANKBARODA',
 }, {
-    'title': 'BHEL'
+  'title': 'BHEL',
 }, {
-    'title': 'BPCL'
+  'title': 'BPCL',
 }, {
-    'title': 'BHARTIARTL'
+  'title': 'BHARTIARTL',
 }, {
-    'title': 'INFRATEL'
+  'title': 'INFRATEL',
 }, {
-    'title': 'BOSCHLTD'
+  'title': 'BOSCHLTD',
 }, {
-    'title': 'CIPLA'
+  'title': 'CIPLA',
 }, {
-    'title': 'COALINDIA'
+  'title': 'COALINDIA',
 }, {
-    'title': 'DRREDDY'
+  'title': 'DRREDDY',
 }, {
-    'title': 'EICHERMOT'
+  'title': 'EICHERMOT',
 }, {
-    'title': 'GAIL'
+  'title': 'GAIL',
 }, {
-    'title': 'GRASIM'
+  'title': 'GRASIM',
 }, {
-    'title': 'HCLTECH'
+  'title': 'HCLTECH',
 }, {
-    'title': 'HDFCBANK'
+  'title': 'HDFCBANK',
 }, {
-    'title': 'HEROMOTOCO'
+  'title': 'HEROMOTOCO',
 }, {
-    'title': 'HINDALCO'
+  'title': 'HINDALCO',
 }, {
-    'title': 'HINDUNILVR'
+  'title': 'HINDUNILVR',
 }, {
-    'title': 'HDFC'
+  'title': 'HDFC',
 }, {
-    'title': 'ITC'
+  'title': 'ITC',
 }, {
-    'title': 'ICICIBANK'
+  'title': 'ICICIBANK',
 }, {
-    'title': 'IDEA'
+  'title': 'IDEA',
 }, {
-    'title': 'INDUSINDBK'
+  'title': 'INDUSINDBK',
 }, {
-    'title': 'INFY'
+  'title': 'INFY',
 }, {
-    'title': 'KOTAKBANK'
+  'title': 'KOTAKBANK',
 }, {
-    'title': 'LT'
+  'title': 'LT',
 }, {
-    'title': 'LUPIN'
+  'title': 'LUPIN',
 }, {
-    'title': 'M&M'
+  'title': 'M&M',
 }, {
-    'title': 'MARUTI'
+  'title': 'MARUTI',
 }, {
-    'title': 'NTPC'
+  'title': 'NTPC',
 }, {
-    'title': 'ONGC'
+  'title': 'ONGC',
 }, {
-    'title': 'POWERGRID'
+  'title': 'POWERGRID',
 }, {
-    'title': 'RELIANCE'
+  'title': 'RELIANCE',
 }, {
-    'title': 'SBIN'
+  'title': 'SBIN',
 }, {
-    'title': 'SUNPHARMA'
+  'title': 'SUNPHARMA',
 }, {
-    'title': 'TCS'
+  'title': 'TCS',
 }, {
-    'title': 'TATAMTRDVR'
+  'title': 'TATAMTRDVR',
 }, {
-    'title': 'TATAMOTORS'
+  'title': 'TATAMOTORS',
 }, {
-    'title': 'TATAPOWER'
+  'title': 'TATAPOWER',
 }, {
-    'title': 'TATASTEEL'
+  'title': 'TATASTEEL',
 }, {
-    'title': 'TECHM'
+  'title': 'TECHM',
 }, {
-    'title': 'ULTRACEMCO'
+  'title': 'ULTRACEMCO',
 }, {
-    'title': 'WIPRO'
+  'title': 'WIPRO',
 }, {
-    'title': 'YESBANK'
+  'title': 'YESBANK',
 }, {
-    'title': 'ZEEL'
+  'title': 'ZEEL',
 }, {
-    'title': 'AARTIDRUGS'
+  'title': 'AARTIDRUGS',
 }, {
-    'title': 'ASAHISONG'
+  'title': 'ASAHISONG',
 }, {
-    'title': 'BBTC'
+  'title': 'BBTC',
 }, {
-    'title': 'ENGINERSIN'
+  'title': 'ENGINERSIN',
 }, {
-    'title': 'EXCELINDUS'
+  'title': 'EXCELINDUS',
 }, {
-    'title': 'GMBREW'
+  'title': 'GMBREW',
 }, {
-    'title': 'JBMA'
+  'title': 'JBMA',
 }, {
-    'title': 'KABRAEXTRU'
+  'title': 'KABRAEXTRU',
 }, {
-    'title': 'MANALIPETC'
+  'title': 'MANALIPETC',
 }, {
-    'title': 'MARUTI'
+  'title': 'MARUTI',
 }, {
-    'title': 'MIRZAINT'
+  'title': 'MIRZAINT',
 }, {
-    'title': 'POLYMED'
+  'title': 'POLYMED',
 }, {
-    'title': 'SHILPI'
+  'title': 'SHILPI',
 }, {
-    'title': 'STER'
+  'title': 'STER',
 }, {
-    'title': 'STOREONE'
+  'title': 'STOREONE',
 }, {
-    'title': 'TATAMOTORS'
+  'title': 'TATAMOTORS',
 }, {
-    'title': 'WELSPUNIND'
+  'title': 'WELSPUNIND',
 }, {
-    'title': 'WINDMACHIN'
+  'title': 'WINDMACHIN',
 }, {
-    'title': 'XCHANGING'
+  'title': 'XCHANGING',
 }, {
-    'title': 'ZICOM'
-}]
+  'title': 'ZICOM',
+}];
 module.exports.routes = routes;

@@ -1,252 +1,356 @@
- {{> dependency}}
+{{> dependency}} {{> header}}
 <!-- plotly dependency for this page -->
-<script type="text/javascript" src="/client_lib/plotly-latest.min.js"></script>
+<script type="text/javascript" src="/client_lib/plotly-latest.min.js">
+</script>
 <!--  <div class="ui raised padded container segment"> -->
-<input hidden="true" class="strategy_id" value={{strategy_id}}>
+<input hidden="true" class="strategy_id" value= {{strategy_id}}>
 <input hidden="true" class="temp">
 <table class="ui striped selectable collapsing small celled  table">
     <thead>
         <tr>
             <th colspan="4">
                 <h2 class="ui header dash_header">
-                    <!-- <i class="settings icon "></i> -->
-                    <img class="mini ui image" src="/client_img/wheat.svg">
-                    <div class="content "> Stocks : {{strategy_id}}
-                        <!--  <div class="sub header">_______</div> --></div>
-            </th>
-            <th colspan="3">
-                <div class="ui vertical left tiny  animated button link" tabindex="0">
-                    <div class="visible  content left"> Signals</a>
-                    </div>
-                    <div class="hidden content">
-                        <a href="/signal_log?strategy_id={{strategy_id}}">
-                            <i class="icon list"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ui vertical left tiny  animated button link" tabindex="0">
-                    <div class="visible  content left">Orders </a>
-                    </div>
-                    <div class="hidden content">
-                        <a href="/order_log?strategy_id={{strategy_id}}">
-                            <i class="icon list"></i>
-                        </a>
-                    </div>
-                </div>
-            </th>
-            <th colspan="5"></th>
-            <tr>
-                <th colspan="1">Symbol</th>
-                <th colspan="1">Stock ceil %</th>
-                <th colspan="1"> Net ror %</th>
-                <th colspan="1">Profit margin %</th>
-                <!-- <th colspan = "1">nrr</th>
-  <th colspan = "1">profit margin</th> -->
-                <th colspan="1">buy price threshold</th>
-                <th colspan="1">prev buy price</th>
-                <th colspan="1">prev sell price</th>
-                <th colspan="1">Signal status</th>
-                <th colspan="1">Order status</th>
-                <th colspan="1">Trade</th>
-                <th colspan="1">Qty</th>
-                <th colspan="1">Close</th>
-                <!--   <th>Routine</th> -->
-            </tr>
-    </thead>
-    <tbody>
-        {{#data}}
-            <tr id="{{tradingsymbol}}">
-                <td colspan="1">
-                    <div class="ui vertical left tiny fluid animated button link show_chart" symbol="{{tradingsymbol}}" tabindex="0">
-                        <div class="visible  content left"> {{tradingsymbol}}</a>
-                        </div>
-                        <div class="hidden content">
-                            <i class="icon save"></i>
-                        </div>
-                    </div>
-                </td>
-                <td colspan="1" class="round_num">{{stock_ceil}}</td>
-                <td colspan="1" class="round_num">{{nrr}}</td>
-                <td colspan="1" class="round_num">{{profit_margin}}</td>
-                <td colspan="1">{{buy_price_threshold}}</td>
-                <td colspan="1">{{prev_buy_price}}</td>
-                <td colspan="1">{{prev_sell_price}}</td>
-                <td colspan="1" class="{{tradingsymbol}}_signal_status"></td>
-                <td colspan="1" class="{{tradingsymbol}}_order_status"></td>
-                <td colspan="1" class="{{tradingsymbol}}_order_transaction_type"></td>
-                <td colspan="1" class="{{tradingsymbol}}_order_qty"></td>
-                <td colspan="1" class="eod eod_{{tradingsymbol}}" symbol="{{tradingsymbol}}"></td>
-            </tr>
-        {{/data}}
-    </tbody>
+          <!-- <i class="settings icon "></i> -->
+          <img class="mini ui image" src="/client_img/wheat.svg">
+          <div class="content "> Stocks : {{strategy_id}}
+            <!--  <div class="sub header">_______</div> -->
+          </div>
+          </th>
+      <th colspan="3">
+        <div class="ui vertical left tiny  animated button link" tabindex="0">
+          <div class="visible  content left"> Signals
+            </a>
+        </div>
+        <div class="hidden content">
+          <a href="/signal_log?strategy_id={{strategy_id}}">
+            <i class="icon list">
+            </i>
+          </a>
+        </div>
+    </div>
+    <div class="ui vertical left tiny  animated button link" tabindex="0">
+      <div class="visible  content left">Orders 
+        </a>
+    </div>
+    <div class="hidden content">
+      <a href="/order_log?strategy_id={{strategy_id}}">
+        <i class="icon list">
+        </i>
+      </a>
+    </div>
+    </div>
+      <button class="ui right floated tiny labeled icon button eod_download_trigger" data-strategy_id="{{strategy_id}}"  data-action="watchlist eod_download_trigger">
+    <i class="right refresh icon" >
+    </i>
+    EOD download
+  </button>
+  </th>
+<th colspan="5">
+  <button class="ui right floated tiny labeled icon button clear_signal_order" data-strategy_id="{{strategy_id}}"  data-action="watchlist clear_signal_order">
+    <i class="right refresh icon" >
+    </i>
+    Clear Signal/Order
+  </button>
+  <button class="ui right floated tiny labeled icon button run_routine" data-strategy_id="{{strategy_id}}"  data-action="watchlist run_routine" >
+    <i class="right refresh icon" >
+    </i>
+    Run
+  </button>
+</th>
+<tr>
+  <th colspan="1">Symbol
+  </th>
+  <th colspan="1">Stock ceil %
+  </th>
+  <th colspan="1"> Net ror %
+  </th>
+  <th colspan="1">Profit margin %
+  </th>
+  <!-- <th colspan = "1">nrr</th>
+<th colspan = "1">profit margin</th> -->
+  <th colspan="1">buy price threshold
+  </th>
+  <th colspan="1">prev buy price
+  </th>
+  <th colspan="1">prev sell price
+  </th>
+  <th colspan="1">Signal status
+  </th>
+  <th colspan="1">Order status
+  </th>
+  <th colspan="1">Trade
+  </th>
+  <th colspan="1">Qty
+  </th>
+  <th colspan="1">Close
+  </th>
+  <!--   <th>Routine</th> -->
+</tr>
+</thead>
+<tbody>
+  {{#data}}
+  <tr id="{{tradingsymbol}}">
+    <td colspan="1">
+      <div class="ui vertical left tiny fluid animated button link show_chart" symbol="{{tradingsymbol}}" tabindex="0">
+        <div class="visible  content left"> {{tradingsymbol}}
+          </a>
+      </div>
+      <div class="hidden content">
+        <i class="icon save">
+        </i>
+      </div>
+</div>
+</td>
+<td colspan="1" class="round_num">{{stock_ceil}}
+</td>
+<td colspan="1" class="round_num">{{nrr}}
+</td>
+<td colspan="1" class="round_num">{{profit_margin}}
+</td>
+<td colspan="1">{{buy_price_threshold}}
+</td>
+<td colspan="1">{{prev_buy_price}}
+</td>
+<td colspan="1">{{prev_sell_price}}
+</td>
+<td colspan="1" class="{{tradingsymbol}}_signal_status">
+</td>
+<td colspan="1" class="{{tradingsymbol}}_order_status">
+</td>
+<td colspan="1" class="{{tradingsymbol}}_order_transaction_type">
+</td>
+<td colspan="1" class="{{tradingsymbol}}_order_qty">
+</td>
+<td colspan="1" class="eod eod_{{tradingsymbol}}" symbol="{{tradingsymbol}}">
+</td>
+</tr>
+{{/data}}
+</tbody>
 </table>
 <!-- modal for displaying chart -->
 <div id="modal">
-    <div class="ui basic modal">
-        <i class="close icon"></i>
-        <div class="header">More info </div>
-        <div id="tester"> </div>
-</div>
+  <div class="ui basic modal">
+    <i class="close icon">
+    </i>
+    <div class="header">More info 
+    </div>
+    <div id="tester"> 
+    </div>
+  </div>
 </div>
 </body>
 <script type="text/javascript">
-var extra_info={};
-var strategy_id="{{strategy_id}}";
-$(function() {
+  var extra_info={}; var strategy_id="{{strategy_id}}"; 
+      var onFailure =  function(response) {
+      // request failed, or valid response but response.success = false
+      console.log('operation failed')
+    }
+    var onError =  function(errorMessage) {
+      // invalid response
+      console.log('request failed')
+    }
+
+  /* Define API endpoints once globally */ 
+  $.fn.api.settings.api = { 
+    'watchlist run_routine' : '/strategy_stock/run?strategy_id={{strategy_id}}', 
+    'watchlist clear_signal_order' : '/strategy_stock/reset?strategy_id={{strategy_id}}' ,
+        'watchlist eod_download_trigger' : '/eod/eod_download?strategy_id={{strategy_id}}' ,
+    
+  };
+
+  $('.eod_download_trigger.button')
+  .api({
+    onSuccess: function(response) {
+      // valid response and response.success = true
+     location.reload()
+    },
+    onFailure:onFailure ,
+    onError:onError,
+  }).state({
+    onActivate: function() {
+      $(this).state('flash text');
+    }  });
+
+   $('.run_routine.button')
+  .api({
+    onSuccess: function(response) {
+      // valid response and response.success = true
+      location.reload()
+    },
+    onFailure:onFailure ,
+    onError:onError,
+  }).state({
+    onActivate: function() {
+      $(this).state('flash text');
+    }  });
+
+  $('.clear_signal_order.button')
+  .api({
+    onSuccess: function(response) {
+      // valid response and response.success = true
+      location.reload()
+    },
+    onFailure:onFailure ,
+    onError:onError,
+  }).state({
+    onActivate: function() {
+      $(this).state('flash text');
+    }
+  });
+  
+
+  $(function() {
     // convert unix date to readable date
     // $('.format_time').each(function(){
     //   $(this).text((new Date(+($(this).text()))).toString().substr(0,11))
     // });
     $('.round_num').each(function() {
-        $(this).text(parseFloat(+($(this).text()), 3).toFixed(3))
-    });
+      $(this).text(parseFloat(+($(this).text()), 3).toFixed(3))
+    }
+                        );
     $('.format_time').each(function() {
-        $(this).text(timeSince(new Date(+($(this).text()))))
-    });
-
-
-
-
-$.ajax({
-  url: '/signal_log/all?strategy_id='+strategy_id,
-  // data: data,
-  success: function(val){
-    console.log(val)
-    val.data.forEach(function(item){
-      $('.'+item.tradingsymbol+'_signal_status').text(item.signal_status)
-    })
-  },
-  dataType: 'json'
-});
+      $(this).text(timeSince(new Date(+($(this).text()))))
+    }
+                          );
+    $.ajax({
+      url: '/signal_log/all?strategy_id='+strategy_id,
+      // data: data,
+      success: function(val){
+        console.log(val)
+        val.data.forEach(function(item){
+          $('.'+item.tradingsymbol+'_signal_status').text(item.signal_status)
+        }
+                        )
+      }
+      ,
+      dataType: 'json'
+    }
+          );
     // request signal_log for this current strategy
-$.ajax({
-  url: '/order_log/all?strategy_id='+strategy_id,
-  // data: data,
-  success: function(val){
-    //console.log(val)
-    val.data.forEach(function(item){
-      //console.log(item)
-      $('.'+item.tradingsymbol+'_order_status').text(item.status)
-      $('.'+item.tradingsymbol+'_order_transaction_type').text(item.order_obj.transaction_type)
-      $('.'+item.tradingsymbol+'_order_qty').text(item.order_obj.quantity)
-    })
-  },
-  dataType: 'json'
-});
-
-
+    $.ajax({
+      url: '/order_log/all?strategy_id='+strategy_id,
+      // data: data,
+      success: function(val){
+        //console.log(val)
+        val.data.forEach(function(item){
+          //console.log(item)
+          $('.'+item.tradingsymbol+'_order_status').text(item.status)
+          $('.'+item.tradingsymbol+'_order_transaction_type').text(item.order_obj.transaction_type)
+          $('.'+item.tradingsymbol+'_order_qty').text(item.order_obj.quantity)
+        }
+                        )
+      }
+      ,
+      dataType: 'json'
+    }
+          );
     // request all watchlist for this current strategy
-$.ajax({
-  url: '/watchlist/all?strategy_id='+strategy_id,
-  // data: data,
-  success: function(val){
-    console.log(val)
-    val.data.forEach(function(item){
-      extra_info[item.tradingsymbol]=item.extra_info
-    })
-
-    $(document).on("click", ".show_chart", function (obj) {
-    var id =this.getAttribute('symbol')
-    console.log(extra_info)
-  var trace1 = {
-    x: [...Array(extra_info[id].fixed_returns.length+1).keys()].slice(1),
-    y: extra_info[id].fixed_returns,
-    name: 'Returns earned',
-    type: 'bar'
-  };
-
-  var trace2 = {
-    x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
-    y: extra_info[id].cycle_periods,
-    name: 'Holding Period',
-    yaxis: 'y2',
-    type: 'line'
-  //  mode: 'markers',
-  // marker: {
-  //   size:extra_info[id].cycle_periods
-  // }
-};
-
-var trace3 = {
-   x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
-    y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].returns_median)                ,
-  mode: 'lines',
-  name: 'returns_median',
-  line: {
-    dash: 'dashdot',
-    width: 1
-  }
-};
-var trace4 = {
-   x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
-    y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].returns_std)               ,
-  mode: 'lines',
-  name: 'returns_mean',
-  line: {
-    dash: 'dashdot',
-    width: 1
-  }
-};
-
-var trace5 = {
-   x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
-    y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].hold_days_mean)             ,
-  mode: 'lines',
-   yaxis: 'y2',
-  name: 'hold_days_mean',
-  line: {
-    dash: 'dashdot',
-    width: 1
-  }
-};
-
-
-var layout = {
-  title: 'Returns for Rs 10k investment in last 3 yrs',
-  yaxis: {title: 'Returns in Rs.'},
-  yaxis2: {
-    title: 'Holding Period (In Days)',
-    titlefont: {color: 'rgb(148, 103, 189)'},
-    tickfont: {color: 'rgb(148, 103, 189)'},
-    overlaying: 'y',
-    side: 'right'
-  }
-};
-
-var data = [trace1, trace2,trace3,trace4,trace5];
-
-Plotly.newPlot('tester', data, layout);
-
-$(".ui.modal").modal("show");
-})
-
-  },
-  dataType: 'json'
-});
-
-
-//request for eod and set it
-
+    $.ajax({
+      url: '/watchlist/all?strategy_id='+strategy_id,
+      // data: data,
+      success: function(val){
+        console.log(val)
+        val.data.forEach(function(item){
+          extra_info[item.tradingsymbol]=item.extra_info
+        }
+                        )
+        $(document).on("click", ".show_chart", function (obj) {
+          var id =this.getAttribute('symbol')
+          console.log(extra_info)
+          var trace1 = {
+            x: [...Array(extra_info[id].fixed_returns.length+1).keys()].slice(1),
+            y: extra_info[id].fixed_returns,
+            name: 'Returns earned',
+            type: 'bar'
+          };
+          var trace2 = {
+            x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+            y: extra_info[id].cycle_periods,
+            name: 'Holding Period',
+            yaxis: 'y2',
+            type: 'line'
+            //  mode: 'markers',
+            // marker: {
+            //   size:extra_info[id].cycle_periods
+            // }
+          };
+          var trace3 = {
+            x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+            y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].returns_median)                ,
+            mode: 'lines',
+            name: 'returns_median',
+            line: {
+              dash: 'dashdot',
+              width: 1
+            }
+          };
+          var trace4 = {
+            x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+            y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].returns_std)               ,
+            mode: 'lines',
+            name: 'returns_mean',
+            line: {
+              dash: 'dashdot',
+              width: 1
+            }
+          };
+          var trace5 = {
+            x: [...Array(extra_info[id].cycle_periods.length+1).keys()].slice(1),
+            y: Array(extra_info[id].cycle_periods.length).fill(extra_info[id].hold_days_mean)             ,
+            mode: 'lines',
+            yaxis: 'y2',
+            name: 'hold_days_mean',
+            line: {
+              dash: 'dashdot',
+              width: 1
+            }
+          };
+          var layout = {
+            title: 'Returns for Rs 10k investment in last 3 yrs',
+            yaxis: {
+              title: 'Returns in Rs.'}
+            ,
+            yaxis2: {
+              title: 'Holding Period (In Days)',
+              titlefont: {
+                color: 'rgb(148, 103, 189)'}
+              ,
+              tickfont: {
+                color: 'rgb(148, 103, 189)'}
+              ,
+              overlaying: 'y',
+              side: 'right'
+            }
+          };
+          var data = [trace1, trace2,trace3,trace4,trace5];
+          Plotly.newPlot('tester', data, layout);
+          $(".ui.modal").modal("show");
+        }
+                      )
+      }
+      ,
+      dataType: 'json'
+    }
+          );
+    //request for eod and set it
     // request signal_log for this current strategy
-$.ajax({
-  url: '/eod/all?',
-  // data: data,
-  success: function(val){
-    //console.log(val)
-    $('.eod').each(function() {
-      var symbol =  $(this).attr('symbol')
-      var elem=$(this)
-      elem.text(val[symbol].close)
-      });
-  },
-  dataType: 'json'
-});
-
-
-
-
+    $.ajax({
+      url: '/eod/all?',
+      // data: data,
+      success: function(val){
+        //console.log(val)
+        $('.eod').each(function() {
+          var symbol =  $(this).attr('symbol')
+          var elem=$(this)
+          elem.text(val[symbol].close)
+        }
+                      );
+      }
+      ,
+      dataType: 'json'
+    }
+          );
     //request signal_log for this current strategy
-
-})
-
-</script>
+  }
+   )
+  </script>

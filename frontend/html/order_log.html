@@ -1,5 +1,5 @@
  {{> dependency}}
-
+ {{> header}}
  <body>
   <div class="ui raised padded container segment">
    <h2 class="ui header">
@@ -9,6 +9,7 @@
       Order logs : {{strategy_id}}
       <!--  <div class="sub header">_______</div> -->
     </div>
+     <input hidden="true" class="strategy_id temp" value={{strategy_id}}>
   </h2>
   <div class="ui feed">
 
@@ -25,6 +26,21 @@
          <div class=" date format_time">
            {{updated_time}}
          </div>
+          <a>
+           <div class="ui floating labeled compact small dropdown button" id="{{tradingsymbol}}_{{order_id}}_dropdown">
+             <input type="hidden" name="status" class="status" value="{{status}}" autocomplete="off">
+             <i class="sort icon"></i>
+             <span class="text">Action</span>
+             <div class="menu">
+              <div class="item green" data-value="APPROVE">
+               <a class="ui green circular label">APPROVE</a>
+              </div>
+            <div class="item red" data-value="REJECT">
+              <a class="ui red circular label">REJECT</a>
+            </div>
+              </div>
+            </div>
+          </a>
        </div>
        <div class="extra images">
         {{#trans_log}}
@@ -64,9 +80,55 @@
  </style>
 
  <script type="text/javascript">
- $('.format_time').each(function(){
-  $(this).text(timeSince(new Date(+($(this).text()))))
+    var onFailure =  function(response) {
+      // request failed, or valid response but response.success = false
+      console.log('operation failed', response)
+    }
+    var onError =  function(errorMessage) {
+      // invalid response
+      console.log('request failed', response)
+    }
+
+$.fn.api.settings.api = {
+    'order execute': '/order_log/approval?'
+};
+
+$('.format_time').each(function() {
+    $(this).text(timeSince(new Date(+($(this).text()))))
 });
 
+$('.dropdown')
+    .dropdown({
+        onChange: function(value, text, $selectedItem) {
+            console.log(value, text, $selectedItem)
+            var strategy_id = $('input.strategy_id').val();
+            var status = $(this).dropdown('get value')
+            var tradingsymbol = ($(this).dropdown().prop('id')).split('_')[0];
+            var order_id = ($(this).dropdown().prop('id')).split('_')[1];
+            console.log('order_id:',order_id);
+            $('.temp').api({
+                action: 'order execute',
+                on: 'now',
+                // passed via POST
+                data: {
+                    strategy_id: strategy_id,
+                    action: status,
+                    tradingsymbol: tradingsymbol,
+                    order_id:order_id,
+                        // ($selectedItem.before())[0].getAttribute('data-value')
+                },
+                onSuccess: function(response) {
+                    // valid response and
+                    console.log(response);
+                    // if(response.success)
+                     location.reload()
+                  // else
+                    // console.log('request failed:',response)
+                },
+                onFailure: onFailure,
+                onError: onError
+            })
+        }
+    });
  </script>
 

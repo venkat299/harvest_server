@@ -1,5 +1,6 @@
  {{> dependency}}
  <body>
+  {{> header}}
  	<div class="ui raised padded container segment">
 
  		<!-- strategy list as cards -->
@@ -20,14 +21,14 @@
 
  					<!-- strategy parameters and status -->
 
- 					<div class="ui label">
+ 					<div class="ui small label">
  						<i class="rupee icon"></i>
- 						{{budget}}
+ 						<span class="format_currency">{{budget}}</span>
  						<a class="detail">Budget</a>
  					</div>
- 					<div class="ui padded label">
+ 					<div class="ui small label ">
  						<i class="rupee icon"></i>
- 						{{spent}}
+            <span class="format_currency">{{spent}}</span>
  						<a class="detail">Spent</a>
  					</div>
 
@@ -99,5 +100,26 @@
  .progress()
  ;
  $('.dropdown').dropdown()
+
+ function abbreviateNumber(value) {
+    var newValue = value;
+    if (value >= 1000) {
+        var suffixes = ["", "K", "M", "B","T"];
+        var suffixNum = Math.floor( (""+value).length/3 );
+        var shortValue = '';
+        for (var precision = 2; precision >= 1; precision--) {
+            shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+            if (dotLessShortValue.length <= 2) { break; }
+        }
+        if (shortValue % 1 != 0)  shortNum = shortValue.toFixed(1);
+        newValue = shortValue+suffixes[suffixNum];
+    }
+    return newValue;
+}
+
+$('.format_currency').each(function() {
+    $(this).text(abbreviateNumber($(this).text()));
+});
 
  </script>

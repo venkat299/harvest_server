@@ -1,4 +1,5 @@
  {{> dependency}}
+  {{> header}}
 <!-- plotly dependency for this page -->
 <script type="text/javascript" src="/client_lib/plotly-latest.min.js"></script>
 
@@ -24,6 +25,12 @@
             <a href="/strategy_stock?strategy_id={{strategy_id}}"> <i class="icon list" ></i></a> 
           </div>
         </div>
+      </th>
+       <th colspan = "1"> 
+         <button class="ui right floated small labeled icon button reset_status" data-strategy_id="{{strategy_id}}"  data-action="watchlist reset_status">
+           <i class="right refresh icon" ></i>
+           Reset status
+         </button>
       </th>
       <tr>
 
@@ -167,7 +174,8 @@
   'watchlist search'      : '/watchlist/search?q={query}',
   'watchlist monthly_eod'      : '/watchlist/monthly_eod?', //TODO to remove from this file
   'watchlist change_status'      : '/watchlist/change_status?',
-  'watchlist routine_all'      : '/watchlist/routine_all?strategy_id={strategy_id}'
+  'watchlist routine_all'      : '/watchlist/routine_all?strategy_id={strategy_id}',
+  'watchlist reset_status'      : '/watchlist/reset_status?strategy_id={strategy_id}'
 };
 
 $('.run_routine.button')
@@ -189,6 +197,20 @@ $('.run_routine.button')
     onSuccess: function(response) {
       // valid response and response.success = true
       location.reload()
+    },
+    onFailure:onFailure ,
+    onError:onError,
+  }).state({
+    onActivate: function() {
+      $(this).state('flash text');
+    }
+  });
+
+  $('.reset_status.button')
+  .api({
+    onSuccess: function(response) {
+      // valid response and response.success = true
+     // location.reload()
     },
     onFailure:onFailure ,
     onError:onError,

@@ -1,6 +1,6 @@
 {
   "name": "harvest_server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "web server for harvest app",
   "main": "index.js",
   "directories": {
@@ -20,7 +20,7 @@
     "harvest_data": "git+https://github.com/venkat299/harvest_data.git",
     "harvest_evaluator": "git+https://github.com/venkat299/harvest_evaluator.git",
     "harvest_executor": "git+https://github.com/venkat299/harvest_executor.git",
-    "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#r",
+    "harvest_strategy": "git+https://github.com/venkat299/harvest_strategy.git#development",
     "jsonfile": "^2.3.1",
     "level": "^1.4.0",
     "level-jobs": "^0.6.0",
