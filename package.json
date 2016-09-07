@@ -1,6 +1,6 @@
 {
   "name": "harvest_server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "web server for harvest app",
   "main": "index.js",
   "directories": {
