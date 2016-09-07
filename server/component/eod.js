@@ -2,6 +2,7 @@
 // private lib
 // =======================
 const routes = require('express').Router();
+const logger = require('winston');
 
 routes.get('/one?', function (req, res, next) {
     // console.log(req.query)
@@ -29,6 +30,16 @@ routes.get('/all?', function (req, res, next) {
     final_val.success = true;
     final_val.data = val;
     res.json(final_val);
+  });
+});
+
+// ========== runs routine for the stock
+routes.get('/eod_download?', (req, res) => {
+  // logger.debug(req.query)
+  logger.debug(req.query);
+  const agenda = req.app.get('settings').agenda;
+  agenda.now('eod_download', {}, () => {
+    logger.debug('eod_download job: added to database');
   });
 });
 

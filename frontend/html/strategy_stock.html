@@ -39,14 +39,19 @@
       </a>
     </div>
     </div>
+      <button class="ui right floated tiny labeled icon button eod_download_trigger" data-strategy_id="{{strategy_id}}"  data-action="watchlist eod_download_trigger">
+    <i class="right refresh icon" >
+    </i>
+    EOD download
+  </button>
   </th>
 <th colspan="5">
-  <button class="ui right floated small labeled icon button clear_signal_order" data-strategy_id="{{strategy_id}}"  data-action="watchlist clear_signal_order">
+  <button class="ui right floated tiny labeled icon button clear_signal_order" data-strategy_id="{{strategy_id}}"  data-action="watchlist clear_signal_order">
     <i class="right refresh icon" >
     </i>
     Clear Signal/Order
   </button>
-  <button class="ui right floated small labeled icon button run_routine" data-strategy_id="{{strategy_id}}"  data-action="watchlist run_routine" >
+  <button class="ui right floated tiny labeled icon button run_routine" data-strategy_id="{{strategy_id}}"  data-action="watchlist run_routine" >
     <i class="right refresh icon" >
     </i>
     Run
@@ -148,14 +153,29 @@
   /* Define API endpoints once globally */ 
   $.fn.api.settings.api = { 
     'watchlist run_routine' : '/strategy_stock/run?strategy_id={{strategy_id}}', 
-    'watchlist clear_signal_order' : '/strategy_stock/reset?strategy_id={{strategy_id}}' 
+    'watchlist clear_signal_order' : '/strategy_stock/reset?strategy_id={{strategy_id}}' ,
+        'watchlist eod_download_trigger' : '/eod/eod_download?strategy_id={{strategy_id}}' ,
+    
   };
 
-  $('.run_routine.button')
+  $('.eod_download_trigger.button')
   .api({
     onSuccess: function(response) {
       // valid response and response.success = true
-     // location.reload()
+     location.reload()
+    },
+    onFailure:onFailure ,
+    onError:onError,
+  }).state({
+    onActivate: function() {
+      $(this).state('flash text');
+    }  });
+
+   $('.run_routine.button')
+  .api({
+    onSuccess: function(response) {
+      // valid response and response.success = true
+      location.reload()
     },
     onFailure:onFailure ,
     onError:onError,
@@ -168,7 +188,7 @@
   .api({
     onSuccess: function(response) {
       // valid response and response.success = true
-     // location.reload()
+      location.reload()
     },
     onFailure:onFailure ,
     onError:onError,
