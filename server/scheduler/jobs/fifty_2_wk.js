@@ -51,37 +51,3 @@ module.exports = (agenda, seneca, config) => {
     logger.debug('fifty_2_wk_eod_run job: added to database');
   });
 };
-
-/**
-seneca.make$('strategy_stock').list$({
-            status: 'ACTIVE'
-        }, function(err, list) {
-            if (err) logger.debug(err)
-            var symbols = list.reduce((x, y) => {
-                return x.concat([y.tradingsymbol])
-            }, [])
-            logger.debug(symbols)
-            var promise_arr = []
-            symbols.forEach(function(item) {
-                promise_arr.push(new Promise(function(resolve, reject) {
-                    seneca.make$('eod').list$({
-                        tradingsymbol: item
-                    }, function(err, dt) {
-                        if (err) logger.debug(err)
-                        else {
-                            seneca.act('role:strategy,id:fifty_2_wk,cmd:run', {
-                                data: dt[0].data$(false),
-                                tradingsymbol: item
-                            }, function(err, msg) {
-                                if (err) logger.debug(err)
-                                else logger.debug(msg)
-                                    resolve()
-                            })
-                        }
-                    })
-                }))
-                Promise.all(promise_arr).then(function(){cb()})
-            })
-            //cb()
-        })
-        */

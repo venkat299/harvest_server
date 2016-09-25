@@ -2,9 +2,9 @@
   "active_tasks": [
     "eod",
     "clear_signals",
-    "fifty_2_wk"
+    "fifty_2_wk",
+    "hist_eod"
   ],
-
   "task_list": {
     "eod": {
       "name": "eod",
@@ -23,7 +23,12 @@
       "cron_exp_test": "45 01 * * *",
       "cron_exp": "45 01 * * *",
       "timezone": "Etc/UTC"
+    },
+    "hist_eod": {
+      "name": "hist_eod",
+      "cron_exp_test": "0 0 1 * *",
+      "cron_exp": "0 0 1 * *",
+      "timezone": "Etc/UTC"
     }
   }
-
 }
